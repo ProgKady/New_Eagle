@@ -414,8 +414,78 @@
 .split-pane-divider { -fx-padding: 0 2 0 2; }
 
 /* ===================== STATUS BAR ===================== */
-.status-bar { -fx-padding: 3 14 3 14; }
-.status-bar .label { -fx-font-size: 11px; }
+.status-bar {
+    -fx-padding: 2 6 2 2;
+    -fx-background-color: -bg-tertiary;
+    -fx-border-color: -border-color;
+    -fx-border-width: 1 0 0 0;
+    -fx-min-height: 24;
+}
+.status-bar .status-label {
+    -fx-font-size: 11px;
+    -fx-padding: 2 8;
+    -fx-text-fill: -text-primary;
+}
+.status-bar .status-widget {
+    -fx-font-size: 11px;
+    -fx-padding: 2 6;
+    -fx-text-fill: -text-muted;
+    -fx-cursor: hand;
+}
+.status-bar .status-widget:hover {
+    -fx-background-color: rgba(128,128,128,0.15);
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+}
+.status-bar .status-separator {
+    -fx-font-size: 11px;
+    -fx-padding: 2 2;
+    -fx-text-fill: -border-color;
+}
+.status-bar .progress-panel {
+    -fx-padding: 0 4;
+    -fx-alignment: center-left;
+}
+.status-bar .progress-panel .progress-bar {
+    -fx-pref-height: 14;
+    -fx-max-height: 14;
+    -fx-min-height: 14;
+    -fx-background-color: transparent;
+    -fx-background-radius: 2;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+.status-bar .progress-panel .progress-bar > .track {
+    -fx-background-color: rgba(128,128,128,0.15);
+    -fx-background-radius: 3;
+    -fx-border-color: transparent;
+    -fx-pref-height: 14;
+}
+.status-bar .progress-panel .progress-bar > .bar {
+    -fx-background-color: -fx-accent;
+    -fx-background-radius: 3;
+    -fx-pref-height: 14;
+    -fx-padding: 0;
+}
+.status-bar .progress-panel .progress-bar:indeterminate > .bar {
+    -fx-background-color: -fx-accent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-border-color: transparent;
+}
+.status-bar .progress-panel .cancel-task-btn {
+    -fx-font-size: 10px;
+    -fx-padding: 0 4;
+    -fx-background-color: transparent;
+    -fx-text-fill: -text-muted;
+    -fx-cursor: hand;
+}
+.status-bar .progress-panel .cancel-task-btn:hover {
+    -fx-text-fill: #e74c3c;
+    -fx-background-color: rgba(231,76,60,0.15);
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+}
 
 /* ===================== BREADCRUMB BAR ===================== */
 .breadcrumb-bar {

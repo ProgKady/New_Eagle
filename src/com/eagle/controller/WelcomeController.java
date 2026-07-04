@@ -842,6 +842,7 @@ public class WelcomeController {
         try {
             com.eagle.Main.openProjectDir(projectDir);
         } catch (Exception e) {
+            e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to open project:\n" + e.getMessage());
             alert.setHeaderText(null);
             alert.showAndWait();

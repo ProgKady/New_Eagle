@@ -1647,6 +1647,7 @@ public class TemplateProvider {
                 "</head>\n<body>\n" +
                 "  <h1>Hello Cordova!</h1>\n" +
                 "  <p>Edit www/index.html to get started.</p>\n" +
+                "  <!-- cordova.js is injected by `cordova build`; remove the line below for browser-only preview. -->\n" +
                 "  <script src='cordova.js'></script>\n" +
                 "  <script src='js/index.js'></script>\n" +
                 "</body>\n</html>\n");

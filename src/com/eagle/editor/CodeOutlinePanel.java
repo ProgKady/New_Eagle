@@ -60,9 +60,14 @@ public class CodeOutlinePanel extends VBox {
             if (e.getButton() == MouseButton.PRIMARY && e.getClickCount() == 1) {
                 TreeItem<String> item = treeView.getSelectionModel().getSelectedItem();
                 if (item != null && item != rootItem && editor != null) {
-                    Integer line = (Integer) item.getGraphic().getUserData();
+                    Integer line = null;
+                    if (item.getGraphic() != null) {
+                        line = (Integer) item.getGraphic().getUserData();
+                    }
                     if (line == null && item.getParent() != null && !item.getParent().getValue().equals("Outline")) {
-                        line = (Integer) item.getParent().getGraphic().getUserData();
+                        if (item.getParent().getGraphic() != null) {
+                            line = (Integer) item.getParent().getGraphic().getUserData();
+                        }
                     }
                     if (line != null) {
                         editor.moveTo(line, 0);
@@ -82,6 +87,10 @@ public class CodeOutlinePanel extends VBox {
 
     public void setEditor(CodeEditor ed) {
         this.editor = ed;
+    }
+
+    public CodeEditor getEditor() {
+        return editor;
     }
 
     public void setLspIntegration(LspIntegration lsp) {

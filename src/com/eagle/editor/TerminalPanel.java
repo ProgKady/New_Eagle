@@ -166,8 +166,27 @@ public class TerminalPanel extends VBox {
             if (process != null) process.destroyForcibly();
         }
 
+        boolean isRunning() {
+            return process != null && process.isAlive();
+        }
+
         String getOutput() {
             return outputArea.getText();
         }
+    }
+
+    public void cancelCurrentCommand() {
+        Tab selected = tabPane.getSelectionModel().getSelectedItem();
+        if (selected != null && selected.getContent() instanceof TerminalSession) {
+            ((TerminalSession) selected.getContent()).destroy();
+        }
+    }
+
+    public boolean isCommandRunning() {
+        Tab selected = tabPane.getSelectionModel().getSelectedItem();
+        if (selected != null && selected.getContent() instanceof TerminalSession) {
+            return ((TerminalSession) selected.getContent()).isRunning();
+        }
+        return false;
     }
 }

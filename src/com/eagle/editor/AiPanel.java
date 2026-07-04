@@ -119,6 +119,7 @@ public class AiPanel extends BorderPane {
     }
 
     private javafx.animation.PauseTransition outlineDebounce;
+    private final java.util.Set<CodeEditor> outlineEditors = new java.util.HashSet<>();
 
     public void setActiveEditor(CodeEditor editor) {
         if (codeOutline != null) {
@@ -128,16 +129,23 @@ public class AiPanel extends BorderPane {
                 codeOutline.refresh(editor.getText(), editor.getLanguage());
                 if (outlineDebounce == null) {
                     outlineDebounce = new javafx.animation.PauseTransition(javafx.util.Duration.millis(300));
+                    outlineDebounce.setOnFinished(ev -> {
+                        CodeEditor ed = codeOutline.getEditor();
+                        if (ed != null) {
+                            String t = ed.getText();
+                            if (t != null) codeOutline.refresh(t, ed.getLanguage());
+                        }
+                    });
                 }
-                outlineDebounce.setOnFinished(ev -> {
-                    String t = editor.getText();
-                    if (t != null) codeOutline.refresh(t, editor.getLanguage());
-                });
-                editor.textProperty().addListener((obs, old, nv) -> {
-                    if (nv != null && !nv.equals(old)) {
-                        outlineDebounce.playFromStart();
-                    }
-                });
+                // Only add listener once per editor to prevent listener leak
+                if (!outlineEditors.contains(editor)) {
+                    outlineEditors.add(editor);
+                    editor.textProperty().addListener((obs, old, nv) -> {
+                        if (nv != null && !nv.equals(old)) {
+                            outlineDebounce.playFromStart();
+                        }
+                    });
+                }
             }
         }
     }
@@ -327,8 +335,15 @@ public class AiPanel extends BorderPane {
         chatScrollPane = new ScrollPane(messagesContainer);
         chatScrollPane.setFitToWidth(true);
         chatScrollPane.setStyle("-fx-background: transparent; -fx-background-color: transparent;");
-        // Auto-scroll to bottom when content changes
-        messagesContainer.heightProperty().addListener((obs, old, nv) -> chatScrollPane.setVvalue(1.0));
+        // Auto-scroll to bottom when content changes (guarded to prevent layout loops)
+        messagesContainer.heightProperty().addListener((obs, old, nv) -> {
+            if (nv != null && old != null && nv.doubleValue() > old.doubleValue()) {
+                double vmax = chatScrollPane.getVmax();
+                if (chatScrollPane.getVvalue() >= vmax - 0.05 || vmax <= 1.0) {
+                    chatScrollPane.setVvalue(1.0);
+                }
+            }
+        });
 
         splitPane = new SplitPane();
         splitPane.setOrientation(Orientation.HORIZONTAL);

@@ -63,6 +63,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
@@ -89,10 +90,17 @@ public class EditorController {
     @FXML private Label projectNameLabel;
     @FXML private Label projectsRootLabel;
     @FXML private Label projectsCountLabel;
-    @FXML private Label projectsCountLabel2;
+    @FXML private Label projectsCountLabel2; // kept optional
     @FXML private Label statusLabel;
-    @FXML private Label cursorPosLabel;
-    @FXML private Label fileTypeLabel;
+    @FXML private Label cursorPosLabel; // kept for backward compat
+    @FXML private Label fileTypeLabel;   // kept for backward compat
+    // IntelliJ-like status bar widgets
+    @FXML private Label statusCursorLabel;
+    @FXML private Label statusFileTypeLabel;
+    @FXML private Label statusLangLabel;
+    @FXML private Label statusLineEndingLabel;
+    @FXML private Label statusGitLabel;
+    @FXML private Label statusMemLabel;
     @FXML private Label statusLabelSecondary;
     @FXML private Button previewToggleBtn;
     @FXML private CheckMenuItem viewPreviewItem;
@@ -120,7 +128,64 @@ public class EditorController {
     @FXML private Button newFolderSideBtn;
     @FXML private ProgressBar generationProgress;
     @FXML private Button viewLogBtn;
+    @FXML private HBox progressPanel;
+    @FXML private Label progressTaskLabel;
+    @FXML private Button cancelTaskBtn;
+    @FXML private Label statusIndentLabel;
 
+    private volatile boolean taskCancelled;
+    private volatile boolean refreshPending;
+    private Thread watcherThread;
+
+    // ── Background tree scanning data ──
+    private static class FileTreeNode {
+        File file;
+        boolean isDir;
+        java.util.List<FileTreeNode> children = new java.util.ArrayList<>();
+
+        TreeItem<FileTreeItem> toTreeItem() {
+            TreeItem<FileTreeItem> item = new TreeItem<>(new FileTreeItem(file));
+            for (FileTreeNode child : children) {
+                item.getChildren().add(child.toTreeItem());
+            }
+            return item;
+        }
+    }
+
+    private FileTreeNode scanFileTree(File dir, String filter) {
+        FileTreeNode node = new FileTreeNode();
+        node.file = dir;
+        node.isDir = true;
+        boolean filterActive = filter != null && !filter.isEmpty();
+        try {
+            File[] children = dir.listFiles();
+            if (children != null) {
+                java.util.Arrays.sort(children, (a, b) -> {
+                    if (a.isDirectory() != b.isDirectory()) return a.isDirectory() ? -1 : 1;
+                    return a.getName().compareToIgnoreCase(b.getName());
+                });
+                for (File child : children) {
+                    if (child.isHidden()) continue;
+                    if (child.getName().startsWith(".")) continue; // .git, .vscode, etc.
+                    if (ProjectMeta.isMarkerFile(child)) continue;
+                    boolean matches = !filterActive || child.getName().toLowerCase().contains(filter.toLowerCase());
+                    if (child.isDirectory()) {
+                        FileTreeNode childNode = scanFileTree(child, filter);
+                        if (matches || !childNode.children.isEmpty()) {
+                            node.children.add(childNode);
+                        }
+                    } else if (matches) {
+                        FileTreeNode childNode = new FileTreeNode();
+                        childNode.file = child;
+                        childNode.isDir = false;
+                        node.children.add(childNode);
+                    }
+                }
+            }
+        } catch (Exception ignored) {}
+        return node;
+    }
+    
     private File projectRoot;
     private boolean previewVisible = true;
     private double currentCodeFont = 13.5;
@@ -367,6 +432,7 @@ about.showAndWait();
         Platform.runLater(() -> {
             applyIconsToUI();
             applySettingsToOpenEditors();
+            initStatusBar();
         });
         startFileWatcher();
     }
@@ -784,19 +850,41 @@ about.showAndWait();
     }
 
     private void toggleSplitItem(int index, boolean show) {
-        if (splitItems == null) return;
+        if (splitItems == null || mainSplit == null) return;
         Node node = splitItems.get(index);
         if (node == null) return;
-        if (show && !mainSplit.getItems().contains(node)) {
-            int insertAt = 0;
-            for (int i = 0; i < index; i++) {
-                Node n = splitItems.get(i);
-                if (n != null && mainSplit.getItems().contains(n)) insertAt++;
+        try {
+            if (show && !mainSplit.getItems().contains(node)) {
+                // Insert after the last visible item that comes before this one
+                int insertAt = mainSplit.getItems().size();
+                for (int i = index - 1; i >= 0; i--) {
+                    Node n = splitItems.get(i);
+                    if (n != null && mainSplit.getItems().contains(n)) {
+                        insertAt = mainSplit.getItems().indexOf(n) + 1;
+                        break;
+                    }
+                }
+                mainSplit.getItems().add(Math.min(insertAt, mainSplit.getItems().size()), node);
+                // Reset divider positions after adding
+                resetSplitDividers();
+            } else if (!show) {
+                mainSplit.getItems().remove(node);
+                resetSplitDividers();
             }
-            mainSplit.getItems().add(Math.min(insertAt, mainSplit.getItems().size()), node);
-        } else if (!show) {
-            mainSplit.getItems().remove(node);
+        } catch (Exception e) {
+            System.err.println("Error toggling split item " + index + ": " + e.getMessage());
+            e.printStackTrace();
         }
+    }
+
+    private void resetSplitDividers() {
+        int count = mainSplit.getItems().size();
+        if (count <= 1) return;
+        double[] positions = new double[count - 1];
+        for (int i = 0; i < count - 1; i++) {
+            positions[i] = (i + 1.0) / count;
+        }
+        mainSplit.setDividerPositions(positions);
     }
 
     private void setupTabManager() {
@@ -808,7 +896,9 @@ about.showAndWait();
         tabManager = new TabManager(editorTabs);
         tabManager.setErrorHandler(this::showError);
         tabManager.setOnFileOpened(file -> {
-            fileTypeLabel.setText(extensionOf(file));
+            String ext = extensionOf(file);
+            if (fileTypeLabel != null) fileTypeLabel.setText(ext);
+            if (statusFileTypeLabel != null) statusFileTypeLabel.setText(ext.toUpperCase());
             statusLabel.setText("Opened " + file.getName());
             if (isHtmlFamily(file)) refreshPreview();
             SessionManager.recordOpenFiles(projectRoot, tabManager.allOpenFiles());
@@ -875,32 +965,116 @@ about.showAndWait();
         this.projectRoot = projectDir;
         projectNameLabel.setText(projectDir.getName());
         projectsRootLabel.setText(ProjectsStore.getProjectsRoot().getAbsolutePath());
-        statusLabel.setText("Project: " + projectDir.getAbsolutePath());
-        refreshTree();
+        statusLabel.setText("Loading project...");
         SessionManager.saveLastSession(projectDir);
         if (terminalPanel != null) terminalPanel.setWorkingDir(projectDir);
         if (gitPanel != null) gitPanel.setProjectDir(projectDir);
         if (breadcrumbBar != null) breadcrumbBar.setProjectRoot(projectDir);
         if (aiPanel != null) {
             aiPanel.setProjectRoot(projectDir);
-            aiPanel.setOnFileCreated(this::refreshTree);
+            aiPanel.setOnFileCreated(this::queueRefreshTree);
         }
 
-        java.util.List<String> lastFiles = SessionManager.getLastOpenFiles(projectDir);
-        if (!lastFiles.isEmpty()) {
-            for (String relPath : lastFiles) {
-                File f = new File(projectDir, relPath);
-                if (f.exists() && f.isFile()) openFile(f);
+        // Show loading progress immediately
+        showRunProgress(true, "Loading project tree...");
+        appendGeneratorLog("Opening project: " + projectDir.getName());
+
+        // Build tree data in background so the UI stays responsive
+        new Thread(() -> {
+            try {
+                final java.util.List<File> projects = new java.util.ArrayList<>(ProjectsStore.scanProjects());
+                final String filter = treeFilter != null ? treeFilter.getText().trim() : "";
+
+                // Scan all projects on background thread
+                final java.util.List<FileTreeNode> scannedProjects = new java.util.ArrayList<>();
+                for (File p : projects) {
+                    scannedProjects.add(scanFileTree(p, filter));
+                }
+
+                // Switch to FX thread for tree assembly + file opening + tech detection
+                Platform.runLater(() -> {
+                    try {
+                        // Build tree from scanned data (fast — no I/O)
+                        TreeItem<FileTreeItem> root = new TreeItem<>(new FileTreeItem(ProjectsStore.getProjectsRoot()));
+                        root.setExpanded(true);
+                        for (int i = 0; i < projects.size(); i++) {
+                            TreeItem<FileTreeItem> projectItem = scannedProjects.get(i).toTreeItem();
+                            if (!filter.isEmpty() || projects.get(i).equals(this.projectRoot)) {
+                                projectItem.setExpanded(true);
+                            }
+                            root.getChildren().add(projectItem);
+                        }
+                        fileTree.setRoot(root);
+
+                        String txt = projects.size() + " projects";
+                        projectsCountLabel.setText(txt);
+                        if (projectsCountLabel2 != null) projectsCountLabel2.setText(txt);
+
+                        // Open session files
+                        progressTaskLabel.setText("Opening files...");
+                        appendGeneratorLog("Opening session files...");
+                        openLastSessionFiles(projectDir);
+
+                        // Detect technologies
+                        progressTaskLabel.setText("Detecting project technologies...");
+                        detectProjectTechnologies();
+
+                        // Done
+                        showRunProgress(false, null);
+                        statusLabel.setText("Project: " + projectDir.getName());
+                        appendGeneratorLog("Project loaded: " + projectDir.getName());
+                    } catch (Exception e) {
+                        showRunProgress(false, null);
+                        statusLabel.setText("Project loaded (with warnings)");
+                        appendGeneratorLog("Warning: " + e.getMessage());
+                    }
+                });
+            } catch (Exception e) {
+                Platform.runLater(() -> {
+                    showRunProgress(false, null);
+                    statusLabel.setText("Project loaded (fallback)");
+                    appendGeneratorLog("Fallback: " + e.getMessage());
+                    // Fallback to synchronous loading
+                    refreshTree();
+                    openLastSessionFiles(projectDir);
+                    detectProjectTechnologies();
+                });
             }
-        } else {
+        }).start();
+    }
+
+    private void openLastSessionFiles(File projectDir) {
+        java.util.List<String> lastFiles = SessionManager.getLastOpenFiles(projectDir);
+        if (lastFiles.isEmpty()) {
             ProjectType type = ProjectsStore.getProjectType(projectDir);
             String defaultFile = (type == ProjectType.ANDROID_JS) ? "index.js" : "index.html";
             File index = new File(projectDir, defaultFile);
             if (index.exists()) openFile(index);
+            return;
         }
+        // Open files one at a time with a small delay to let the UI breathe
+        final int[] idx = {0};
+        javafx.animation.Timeline timeline = new javafx.animation.Timeline(
+            new javafx.animation.KeyFrame(javafx.util.Duration.millis(200), e -> {
+                if (idx[0] < lastFiles.size()) {
+                    File f = new File(projectDir, lastFiles.get(idx[0]));
+                    if (f.exists() && f.isFile()) openFile(f);
+                    idx[0]++;
+                }
+            })
+        );
+        timeline.setCycleCount(lastFiles.size());
+        timeline.play();
+    }
 
-        // Auto-detect project technologies and configure editor
-        detectProjectTechnologies();
+    private void queueRefreshTree() {
+        if (!refreshPending) {
+            refreshPending = true;
+            Platform.runLater(() -> {
+                refreshTree();
+                refreshPending = false;
+            });
+        }
     }
 
     private EditorController switchToProject(File projectDir) {
@@ -992,7 +1166,9 @@ about.showAndWait();
         }
         if (MediaViewer.isMediaFile(file)) {
             tabManager.openMediaFile(file);
-            fileTypeLabel.setText(extensionOf(file));
+            String ext = extensionOf(file);
+            if (fileTypeLabel != null) fileTypeLabel.setText(ext);
+            if (statusFileTypeLabel != null) statusFileTypeLabel.setText(ext.toUpperCase());
             statusLabel.setText("Viewing " + file.getName());
             return;
         }
@@ -2253,7 +2429,102 @@ about.showAndWait();
 
     private void updateCursorPos(CodeEditor editor) {
         int[] lc = editor.getLineAndColumn();
-        cursorPosLabel.setText("Ln " + lc[0] + ", Col " + lc[1]);
+        String posText = "Ln " + lc[0] + ", Col " + lc[1];
+        if (cursorPosLabel != null) cursorPosLabel.setText(posText);
+        if (statusCursorLabel != null) statusCursorLabel.setText(posText);
+    }
+
+    // ── Status bar click handlers (IntelliJ-like) ──
+
+    private final String[] ENCODINGS = {"UTF-8", "ISO-8859-1", "Windows-1252"};
+    private int encodingIndex;
+
+    @FXML
+    private void onStatusEncodingClick() {
+        encodingIndex = (encodingIndex + 1) % ENCODINGS.length;
+        String enc = ENCODINGS[encodingIndex];
+        if (statusLangLabel != null) statusLangLabel.setText(enc);
+        statusLabel.setText("Encoding: " + enc);
+    }
+
+    private final String[] LINE_ENDINGS = {"LF", "CRLF", "CR"};
+    private int lineEndingIndex;
+
+    @FXML
+    private void onStatusLineEndingClick() {
+        lineEndingIndex = (lineEndingIndex + 1) % LINE_ENDINGS.length;
+        String le = LINE_ENDINGS[lineEndingIndex];
+        if (statusLineEndingLabel != null) statusLineEndingLabel.setText(le);
+        statusLabel.setText("Line endings: " + le);
+    }
+
+    @FXML
+    private void onStatusIndentClick() {
+        int[] sizes = {2, 4, 8};
+        boolean[] useTabs = {false, false, false};
+        // Simple cycle: Spaces 2 -> Spaces 4 -> Spaces 8 -> Tabs -> Spaces 2
+        String txt = statusIndentLabel != null ? statusIndentLabel.getText() : "";
+        String next;
+        if ("Spaces: 2".equals(txt)) next = "Spaces: 4";
+        else if ("Spaces: 4".equals(txt)) next = "Spaces: 8";
+        else if ("Spaces: 8".equals(txt)) next = "Tabs";
+        else next = "Spaces: 2";
+        if (statusIndentLabel != null) statusIndentLabel.setText(next);
+        statusLabel.setText("Indent: " + next);
+    }
+
+    @FXML
+    private void onStatusGitClick() {
+        if (gitPanel != null) onToggleGit();
+    }
+
+    @FXML
+    private void onStatusMemClick() {
+        System.gc();
+        updateStatusBarMemory();
+        statusLabel.setText("Garbage collection requested");
+    }
+
+    @FXML
+    private void onCancelTask() {
+        taskCancelled = true;
+        if (watcherThread != null && watcherThread.isAlive()) {
+            watcherThread.interrupt();
+        }
+        if (terminalPanel != null) {
+            terminalPanel.cancelCurrentCommand();
+        }
+        showRunProgress(false, null);
+        statusLabel.setText("Task cancelled");
+        appendGeneratorLog("Task cancelled by user");
+    }
+
+    private void updateStatusBarMemory() {
+        if (statusMemLabel == null) return;
+        Runtime rt = Runtime.getRuntime();
+        long used = rt.totalMemory() - rt.freeMemory();
+        long max = rt.maxMemory();
+        int mbUsed = (int)(used / 1048576);
+        int mbMax = max == Long.MAX_VALUE ? 0 : (int)(max / 1048576);
+        if (mbMax > 0) {
+            statusMemLabel.setText(mbUsed + "M / " + mbMax + "M");
+        } else {
+            statusMemLabel.setText(mbUsed + "M");
+        }
+    }
+
+    private void initStatusBar() {
+        if (statusLangLabel != null) statusLangLabel.setText("UTF-8");
+        if (statusLineEndingLabel != null) statusLineEndingLabel.setText("LF");
+        if (statusCursorLabel != null) statusCursorLabel.setText("Ln 1, Col 1");
+        if (statusIndentLabel != null) statusIndentLabel.setText("Spaces: 4");
+        if (statusMemLabel != null) updateStatusBarMemory();
+        // Periodically update memory (every 5s)
+        javafx.animation.Timeline memTimer = new javafx.animation.Timeline(
+            new javafx.animation.KeyFrame(javafx.util.Duration.seconds(5), e -> updateStatusBarMemory())
+        );
+        memTimer.setCycleCount(javafx.animation.Animation.INDEFINITE);
+        memTimer.play();
     }
 
     // ================================================================
@@ -3694,7 +3965,6 @@ about.showAndWait();
                 try {
                     java.awt.Desktop.getDesktop().browse(indexHtml.toURI());
                 } catch (Exception e) {
-                    // Fallback to WebView preview
                     if (!previewVisible) onTogglePreview();
                     refreshPreview();
                 }
@@ -3761,36 +4031,120 @@ about.showAndWait();
             }
             final String ep = extraPath;
 
+            // Show progress bar while running
+            showRunProgress(true, "Running: " + resolvedCmd);
+            appendGeneratorLog("Run: " + resolvedCmd + " (" + projectType + ")");
+
             // Small delay to ensure terminal tab is ready, then run command
             javafx.animation.PauseTransition delay = new javafx.animation.PauseTransition(
                 javafx.util.Duration.millis(300));
-            delay.setOnFinished(e -> terminalPanel.runCommand(resolvedCmd, ep));
+            delay.setOnFinished(e -> {
+                terminalPanel.runCommand(resolvedCmd, ep);
+                // Start watching terminal for server URL / completion
+                watchTerminalForServerUrl(projectType, resolvedCmd);
+            });
             delay.play();
-
-            // Watch terminal for server URL and show dialog when detected
-            if (isWebDevServer(projectType) && !"Neutralino.js".equals(projectType)) {
-                watchTerminalForServerUrl(projectType);
-            }
         }
     }
 
-    /** Watches terminal output for a server URL, then shows a dialog with open/copy buttons. */
-    private void watchTerminalForServerUrl(final String projectType) {
-        new Thread(() -> {
+    private void showRunProgress(boolean show, String message) {
+        javafx.application.Platform.runLater(() -> {
+            if (progressPanel != null) {
+                progressPanel.setVisible(show);
+                progressPanel.setManaged(show);
+            }
+            if (generationProgress != null) {
+                generationProgress.setVisible(show);
+                generationProgress.setManaged(show);
+                if (show) {
+                    generationProgress.setProgress(-1.0);
+                }
+            }
+            if (progressTaskLabel != null) {
+                progressTaskLabel.setText(show && message != null ? message : "");
+            }
+            if (cancelTaskBtn != null) {
+                cancelTaskBtn.setVisible(show);
+                cancelTaskBtn.setManaged(show);
+            }
+            if (statusLabel != null && message != null) {
+                statusLabel.setText(message);
+            }
+            if (!show) {
+                taskCancelled = false;
+            }
+        });
+    }
+
+    /** Watches terminal output for a server URL or process completion, then shows a detailed dialog. */
+    private void watchTerminalForServerUrl(final String projectType, final String command) {
+        final String[] foundUrl = {null};
+        final boolean[] dialogShown = {false};
+        final StringBuilder terminalOutput = new StringBuilder();
+
+        showRunProgress(true, "Running " + projectType + " ...");
+
+        Thread thread = new Thread(() -> {
             int attempts = 0;
-            while (attempts < 35) {
+            int maxAttempts = 40; // 80 seconds total
+            while (attempts < maxAttempts) {
                 try { Thread.sleep(2000); } catch (InterruptedException e) { return; }
-                final String url = extractServerUrl(terminalPanel);
-                if (url != null) {
-                    javafx.application.Platform.runLater(() -> showServerUrlDialog(url, projectType));
+                if (taskCancelled) return;
+                if (terminalPanel == null) break;
+
+                String out = terminalPanel.getActiveTerminalOutput();
+                if (out != null) terminalOutput.append(out);
+
+                // Try to extract URL
+                String url = extractServerUrl(terminalPanel);
+                if (url != null && foundUrl[0] == null) {
+                    foundUrl[0] = url;
+                }
+
+                // Check if process finished (by detecting prompt or common end markers)
+                String clean = out != null ? out.replaceAll("\u001B\\[[\\d;]*[a-zA-Z]", "") : "";
+                boolean finished = clean.contains(projectRoot != null ? projectRoot.getName() + "$" : "$ ")
+                    || clean.contains(projectRoot != null ? projectRoot.getName() + "#" : "# ")
+                    || clean.matches("(?s).*\\n[\\w@]+:[^$]*[$#]\\s*$")
+                    || (clean.contains("error") && clean.contains("npm"))
+                    || (clean.contains("Build") && clean.contains("finished"))
+                    || (clean.contains("process") && clean.contains("exited"));
+
+                // Show dialog if URL found OR if process seems finished OR after max attempts
+                boolean shouldShow = foundUrl[0] != null || finished || attempts >= maxAttempts - 1;
+
+                if (shouldShow && !dialogShown[0]) {
+                    dialogShown[0] = true;
+                    final String fUrl = foundUrl[0];
+                    final String fOut = terminalOutput.toString();
+                    final String logMsg = fUrl != null
+                        ? projectType + " running at " + fUrl
+                        : projectType + " finished (no URL detected)";
+                    appendGeneratorLog(logMsg);
+                    javafx.application.Platform.runLater(() -> {
+                        showRunProgress(false, logMsg);
+                        showRunResultDialog(fUrl, projectType, command, fOut);
+                    });
                     return;
                 }
                 attempts++;
             }
-        }).start();
+            // Timeout — show dialog anyway
+            if (!dialogShown[0]) {
+                dialogShown[0] = true;
+                final String fOut = terminalOutput.toString();
+                appendGeneratorLog(projectType + " timed out (no server)");
+                javafx.application.Platform.runLater(() -> {
+                    showRunProgress(false, projectType + " run timed out (no server detected)");
+                    showRunResultDialog(null, projectType, command, fOut);
+                });
+            }
+        });
+        watcherThread = thread;
+        thread.start();
     }
 
-    /** Extracts an http://localhost:PORT URL from the active terminal output, stripping ANSI codes. */
+    /** Extracts URLs from the active terminal output, stripping ANSI codes. Supports multiple patterns. */
     private String extractServerUrl(TerminalPanel tp) {
         if (tp == null) return null;
         String out = tp.getActiveTerminalOutput();
@@ -3798,55 +4152,120 @@ about.showAndWait();
         // Strip all ANSI escape variants
         String clean = out.replaceAll("\u001B\\[[\\d;]*[a-zA-Z]", "");
         clean = clean.replaceAll("\\[\\d+m", "").replaceAll("\\[\\d;\\d+m", "").replaceAll("\\[\\d;\\d;\\d+m", "");
-        java.util.regex.Matcher m = java.util.regex.Pattern.compile("http://localhost:\\d+").matcher(clean);
-        if (m.find()) return m.group();
-        // Fallback: extract port from lines containing "Local"
-        java.util.regex.Matcher pm = java.util.regex.Pattern.compile("Local.*?(\\d{4,5})").matcher(clean);
-        if (pm.find()) return "http://localhost:" + pm.group(1);
+
+        // Pattern 1: http://localhost:PORT
+        java.util.regex.Matcher m1 = java.util.regex.Pattern.compile("https?://localhost:\\d+").matcher(clean);
+        if (m1.find()) return m1.group();
+
+        // Pattern 2: http://127.0.0.1:PORT
+        java.util.regex.Matcher m2 = java.util.regex.Pattern.compile("https?://127\\.0\\.0\\.1:\\d+").matcher(clean);
+        if (m2.find()) return m2.group();
+
+        // Pattern 3: any http/https URL with port (including network IPs)
+        java.util.regex.Matcher m3 = java.util.regex.Pattern.compile("https?://[\\w.]+:\\d+").matcher(clean);
+        if (m3.find()) return m3.group();
+
+        // Pattern 4: any http/https URL without explicit port
+        java.util.regex.Matcher m4 = java.util.regex.Pattern.compile("https?://[\\w.]+(?:\\w|/)+(?!\\S)").matcher(clean);
+        if (m4.find()) return m4.group();
+
+        // Pattern 5: "port" or "PORT" followed by digits
+        java.util.regex.Matcher m5 = java.util.regex.Pattern.compile("(?i)(?:port|PORT)\\s*[:=]\\s*(\\d{4,5})").matcher(clean);
+        if (m5.find()) return "http://localhost:" + m5.group(1);
+
+        // Pattern 6: "Local" or "localhost" context followed by digits
+        java.util.regex.Matcher m6 = java.util.regex.Pattern.compile("(?i)Local[^\\d]*?(\\d{4,5})").matcher(clean);
+        if (m6.find()) return "http://localhost:" + m6.group(1);
+
+        // Pattern 7: listening on *:PORT
+        java.util.regex.Matcher m7 = java.util.regex.Pattern.compile("listening on \\*:(\\d+)").matcher(clean);
+        if (m7.find()) return "http://localhost:" + m7.group(1);
+
         return null;
     }
 
-    /** Shows a small dialog with the server URL, Open in Browser, and Copy Link buttons. */
-    private void showServerUrlDialog(String url, String projectType) {
+    /** Shows a detailed result dialog after a run attempt — with URL if found, or status info. */
+    private void showRunResultDialog(String url, String projectType, String command, String terminalOutput) {
         javafx.scene.control.Dialog<String> dlg = new javafx.scene.control.Dialog<>();
-        dlg.setTitle("Server Ready — " + projectType);
-        dlg.setHeaderText("Development server is running!");
+        dlg.setTitle("Run Result — " + projectType);
         dlg.initOwner(rootPane.getScene().getWindow());
         dlg.initModality(javafx.stage.Modality.NONE);
 
-        javafx.scene.control.TextField urlField = new javafx.scene.control.TextField(url);
-        urlField.setEditable(false);
-        urlField.setStyle("-fx-font-family: monospace; -fx-font-size: 14px; -fx-text-fill: -accent;");
+        // Header
+        javafx.scene.control.Label headerLbl = new javafx.scene.control.Label();
+        if (url != null) {
+            headerLbl.setText("\u2705 Server is running!");
+            headerLbl.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #22c55e;");
+        } else {
+            headerLbl.setText("\u26A0 No server URL detected");
+            headerLbl.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #f59e0b;");
+        }
 
-        javafx.scene.control.Button openBtn = new javafx.scene.control.Button("Open in Browser");
-        openBtn.setStyle("-fx-background-color: -accent; -fx-text-fill: white; -fx-font-weight: bold;");
-        openBtn.setOnAction(e -> {
-            try { java.awt.Desktop.getDesktop().browse(java.net.URI.create(url)); }
-            catch (Exception ex) { showError("Could not open browser: " + ex.getMessage()); }
-        });
+        // Command info
+        javafx.scene.control.Label cmdLabel = new javafx.scene.control.Label("Command: " + command);
+        cmdLabel.setStyle("-fx-font-family: monospace; -fx-font-size: 11px; -fx-text-fill: -text-muted;");
 
-        javafx.scene.control.Button copyBtn = new javafx.scene.control.Button("Copy Link");
-        copyBtn.setOnAction(e -> {
-            javafx.scene.input.Clipboard cb = javafx.scene.input.Clipboard.getSystemClipboard();
-            javafx.scene.input.ClipboardContent content = new javafx.scene.input.ClipboardContent();
-            content.putString(url);
-            cb.setContent(content);
-            statusLabel.setText("Copied: " + url);
-        });
+        // URL field (if found)
+        javafx.scene.control.TextField urlField = null;
+        javafx.scene.layout.HBox btnRow = new javafx.scene.layout.HBox(10);
+        btnRow.setAlignment(javafx.geometry.Pos.CENTER);
+
+        if (url != null) {
+            urlField = new javafx.scene.control.TextField(url);
+            urlField.setEditable(false);
+            urlField.setStyle("-fx-font-family: monospace; -fx-font-size: 14px; -fx-text-fill: -accent;");
+
+            javafx.scene.control.Button openBtn = new javafx.scene.control.Button("Open in Browser");
+            openBtn.setStyle("-fx-background-color: -accent; -fx-text-fill: white; -fx-font-weight: bold;");
+            openBtn.setOnAction(e -> {
+                try { java.awt.Desktop.getDesktop().browse(java.net.URI.create(url)); }
+                catch (Exception ex) { showError("Could not open browser: " + ex.getMessage()); }
+            });
+
+            javafx.scene.control.Button copyBtn = new javafx.scene.control.Button("Copy Link");
+            copyBtn.setOnAction(e -> {
+                javafx.scene.input.Clipboard cb = javafx.scene.input.Clipboard.getSystemClipboard();
+                javafx.scene.input.ClipboardContent content = new javafx.scene.input.ClipboardContent();
+                content.putString(url);
+                cb.setContent(content);
+                statusLabel.setText("Copied: " + url);
+            });
+            btnRow.getChildren().addAll(openBtn, copyBtn);
+        } else {
+            javafx.scene.control.Label noUrlLabel = new javafx.scene.control.Label(
+                "The server did not output a recognizable URL.\n"
+                + "Check the terminal output for the correct address.");
+            noUrlLabel.setWrapText(true);
+            noUrlLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: -text-muted;");
+            btnRow.getChildren().add(noUrlLabel);
+        }
 
         javafx.scene.control.Button closeBtn = new javafx.scene.control.Button("Close");
         closeBtn.setOnAction(e -> dlg.close());
+        btnRow.getChildren().add(closeBtn);
 
-        javafx.scene.layout.HBox btnRow = new javafx.scene.layout.HBox(10, openBtn, copyBtn, closeBtn);
-        btnRow.setAlignment(javafx.geometry.Pos.CENTER);
+        // Terminal output preview
+        javafx.scene.control.Label outputLabel = new javafx.scene.control.Label("Terminal Output:");
+        outputLabel.setStyle("-fx-font-size: 10px; -fx-text-fill: -text-muted; -fx-padding: 8 0 2 0;");
 
-        javafx.scene.layout.VBox content = new javafx.scene.layout.VBox(12, urlField, btnRow);
+        javafx.scene.control.TextArea outputArea = new javafx.scene.control.TextArea();
+        outputArea.setEditable(false);
+        outputArea.setPrefRowCount(6);
+        outputArea.setStyle("-fx-font-family: monospace; -fx-font-size: 11px;");
+        String displayText = terminalOutput != null && terminalOutput.length() > 2000
+            ? "... (last 2000 chars)\n" + terminalOutput.substring(Math.max(0, terminalOutput.length() - 2000))
+            : (terminalOutput != null ? terminalOutput : "(no output)");
+        outputArea.setText(displayText);
+
+        javafx.scene.layout.VBox content = new javafx.scene.layout.VBox(8, headerLbl, cmdLabel);
+        if (urlField != null) content.getChildren().add(urlField);
+        content.getChildren().addAll(btnRow, outputLabel, outputArea);
         content.setPadding(new javafx.geometry.Insets(14));
 
         javafx.scene.control.ButtonType dummy = new javafx.scene.control.ButtonType("Done", javafx.scene.control.ButtonBar.ButtonData.CANCEL_CLOSE);
         dlg.getDialogPane().getButtonTypes().add(dummy);
         dlg.getDialogPane().setContent(content);
-        dlg.getDialogPane().setPrefWidth(480);
+        dlg.getDialogPane().setPrefWidth(520);
 
         javafx.scene.Node dummyBtn = dlg.getDialogPane().lookupButton(dummy);
         if (dummyBtn != null) dummyBtn.setVisible(false);
@@ -3854,8 +4273,8 @@ about.showAndWait();
         com.eagle.util.ThemeManager.getInstance().applyTheme(dlg.getDialogPane().getScene());
         dlg.show();
 
-        // Auto-close after 60 seconds
-        javafx.animation.PauseTransition autoClose = new javafx.animation.PauseTransition(javafx.util.Duration.seconds(60));
+        // Auto-close after 90 seconds
+        javafx.animation.PauseTransition autoClose = new javafx.animation.PauseTransition(javafx.util.Duration.seconds(90));
         autoClose.setOnFinished(e -> { if (dlg.isShowing()) dlg.close(); });
         autoClose.play();
     }
@@ -3961,6 +4380,48 @@ about.showAndWait();
         detectedTechnologies.addAll(set);
         if (!detectedTechnologies.isEmpty() && statusLabelSecondary != null) {
             statusLabelSecondary.setText("Tech: " + String.join(", ", detectedTechnologies));
+        }
+        // Update git branch in status bar
+        updateGitStatus();
+    }
+
+    private void updateGitStatus() {
+        if (statusGitLabel == null) return;
+        try {
+            File gitDir = null;
+            if (projectRoot != null) {
+                gitDir = new File(projectRoot, ".git");
+                if (!gitDir.exists()) {
+                    // search parent
+                    File p = projectRoot.getParentFile();
+                    while (p != null) {
+                        File pg = new File(p, ".git");
+                        if (pg.exists()) { gitDir = pg; break; }
+                        p = p.getParentFile();
+                    }
+                }
+            }
+            if (gitDir == null || !gitDir.exists()) {
+                statusGitLabel.setText("No VCS");
+                return;
+            }
+            // Read HEAD to get branch name
+            File head = new File(gitDir, "HEAD");
+            if (head.exists()) {
+                String ref = new String(java.nio.file.Files.readAllBytes(head.toPath()),
+                    java.nio.charset.StandardCharsets.UTF_8).trim();
+                if (ref.startsWith("ref: refs/heads/")) {
+                    statusGitLabel.setText(ref.substring(16));
+                } else if (ref.length() > 7) {
+                    statusGitLabel.setText(ref.substring(0, 7) + "...");
+                } else {
+                    statusGitLabel.setText(ref);
+                }
+            } else {
+                statusGitLabel.setText("Git");
+            }
+        } catch (Exception e) {
+            statusGitLabel.setText("No VCS");
         }
     }
 
@@ -4876,18 +5337,42 @@ about.showAndWait();
                 String ts = new java.text.SimpleDateFormat("HH:mm:ss").format(new java.util.Date());
                 statusLabel.setText("[" + ts + "] " + msg);
             }
-            if (value >= 0) {
+            if (progressPanel != null) {
+                progressPanel.setVisible(true);
+                progressPanel.setManaged(true);
+            }
+            if (generationProgress != null) {
                 generationProgress.setVisible(true);
-                generationProgress.setProgress(Math.min(1.0, Math.max(0, value)));
-                viewLogBtn.setVisible(true);
+                if (value < 0) {
+                    generationProgress.setProgress(-1.0);
+                } else {
+                    generationProgress.setProgress(Math.min(1.0, Math.max(0, value)));
+                }
+            }
+            if (progressTaskLabel != null) progressTaskLabel.setText(msg != null ? msg : "");
+            if (cancelTaskBtn != null) {
+                cancelTaskBtn.setVisible(false);
+                cancelTaskBtn.setManaged(false);
             }
         });
     }
 
     private void hideGeneratorProgress() {
         Platform.runLater(() -> {
-            generationProgress.setVisible(false);
-            generationProgress.setProgress(0);
+            if (progressPanel != null) {
+                progressPanel.setVisible(false);
+                progressPanel.setManaged(false);
+            }
+            if (generationProgress != null) {
+                generationProgress.setVisible(false);
+                generationProgress.setProgress(0);
+            }
+            if (progressTaskLabel != null) progressTaskLabel.setText("");
+            if (cancelTaskBtn != null) {
+                cancelTaskBtn.setVisible(false);
+                cancelTaskBtn.setManaged(false);
+            }
+            taskCancelled = false;
         });
     }
 
@@ -5031,13 +5516,10 @@ about.showAndWait();
 
     @FXML
     private void onViewGenerationLog() {
-        if (generatorLog.isEmpty()) {
-            showError("No generator log available. Generate a project first.");
-            return;
-        }
         if (generatorLogViewer == null || !generatorLogViewer.isShowing()) {
             generatorLogViewer = new GeneratorLogViewer(generatorLog, lastGeneratedProjectPath,
                 rootPane.getScene().getWindow());
+            generatorLogViewer.setTitle("Activity Log");
             generatorLogViewer.show();
         } else {
             generatorLogViewer.toFront();
@@ -6030,6 +6512,7 @@ about.showAndWait();
             "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n"
             + "  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\">\n"
             + "  <title>" + name + "</title>\n  <link rel=\"stylesheet\" href=\"css/style.css\">\n"
+            + "  <!-- cordova.js is injected by `cordova build`; remove the line below for browser-only preview. -->\n"
             + "  <script src=\"cordova.js\"></script>\n</head>\n<body>\n"
             + "  <div id=\"app\">\n    <h1>" + name + "</h1>\n    <p>" + escHtml(desc) + "</p>\n"
             + "    <button id=\"btn\">Tap Me (Cordova)</button>\n  </div>\n"
@@ -8409,10 +8892,7 @@ about.showAndWait();
                 int insertAt = mainSplit.getItems().indexOf(previewContainer) + 1;
                 if (insertAt <= 0) insertAt = mainSplit.getItems().size();
                 mainSplit.getItems().add(insertAt, panelTabs);
-                // Adjust divider positions to fit 4 items
-                if (mainSplit.getItems().size() >= 4) {
-                    mainSplit.setDividerPositions(0.18, 0.48, 0.68);
-                }
+                resetSplitDividers();
             }
         }
     }
@@ -8584,7 +9064,7 @@ about.showAndWait();
 
     private void startFileWatcher() {
         Thread watcherThread = new Thread(() -> {
-            java.util.Map<String, Boolean> currentTreeSnapshot = new java.util.HashMap<>();
+            java.util.Map<String, Boolean> currentTreeSnapshot = new java.util.concurrent.ConcurrentHashMap<>();
             File projectsRoot = ProjectsStore.getProjectsRoot();
             if (projectsRoot.exists()) {
                 scanDirectoryPaths(projectsRoot, currentTreeSnapshot);
@@ -8592,20 +9072,26 @@ about.showAndWait();
 
             while (true) {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     break;
                 }
 
-                // 1. Check tree changes (additions/deletions/renames)
-                java.util.Map<String, Boolean> newTreeSnapshot = new java.util.HashMap<>();
+                // 1. Check tree changes (additions/deletions/renames) with debounce
+                java.util.Map<String, Boolean> newTreeSnapshot = new java.util.concurrent.ConcurrentHashMap<>();
                 if (projectsRoot.exists()) {
                     scanDirectoryPaths(projectsRoot, newTreeSnapshot);
                 }
 
                 if (!newTreeSnapshot.equals(currentTreeSnapshot)) {
                     currentTreeSnapshot = newTreeSnapshot;
-                    Platform.runLater(this::refreshTree);
+                    if (!refreshPending) {
+                        refreshPending = true;
+                        Platform.runLater(() -> {
+                            refreshTree();
+                            refreshPending = false;
+                        });
+                    }
                 }
 
                 // 2. Check open files for external modifications / deletions

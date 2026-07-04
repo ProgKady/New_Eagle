@@ -20,6 +20,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.web.WebView?>
+<?import javafx.scene.layout.Region?>
 
 <BorderPane fx:id="rootPane" styleClass="main-container" stylesheets="@../css/base.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.eagle.controller.EditorController">
 
@@ -447,14 +448,31 @@
     </center>
 
     <bottom>
-        <HBox alignment="CENTER_LEFT" spacing="14" styleClass="status-bar">
-            <Label fx:id="statusLabel" text="Ready" />
-            <ProgressBar fx:id="generationProgress" maxWidth="120" prefWidth="120" visible="false" />
-            <Button fx:id="viewLogBtn" onAction="#onViewGenerationLog" style="-fx-font-size: 10; -fx-padding: 1 6;" styleClass="btn-tiny" text="Log" visible="false" />
-            <HBox HBox.hgrow="ALWAYS" />
-            <Label fx:id="projectsCountLabel2" style="-fx-font-size: 10px; -fx-text-fill: -text-muted;" text="" />
-            <Label fx:id="cursorPosLabel" text="Ln 1, Col 1" />
-            <Label fx:id="fileTypeLabel" text="" />
+        <HBox alignment="CENTER_LEFT" spacing="0" styleClass="status-bar">
+            <!-- Left section: messages + progress -->
+            <Label fx:id="statusLabel" styleClass="status-label" text="Ready" />
+            <HBox fx:id="progressPanel" spacing="4" visible="false" managed="false" styleClass="progress-panel">
+                <ProgressBar fx:id="generationProgress" maxWidth="100" prefWidth="80" />
+                <Label fx:id="progressTaskLabel" styleClass="status-label" text="" />
+                <Button fx:id="cancelTaskBtn" onAction="#onCancelTask" styleClass="btn-tiny,cancel-task-btn" style="-fx-font-size: 10; -fx-padding: 0 4;" text="X" />
+            </HBox>
+            <Button fx:id="viewLogBtn" onAction="#onViewGenerationLog" style="-fx-font-size: 10; -fx-padding: 1 6;" styleClass="btn-tiny" text="Log" />
+            <Region HBox.hgrow="ALWAYS" />
+            <!-- Right section: IntelliJ-like status widgets -->
+            <Label fx:id="statusLangLabel" onMouseClicked="#onStatusEncodingClick" styleClass="status-widget" text="UTF-8" />
+            <Label styleClass="status-separator" text="|" />
+            <Label fx:id="statusLineEndingLabel" onMouseClicked="#onStatusLineEndingClick" styleClass="status-widget" text="LF" />
+            <Label styleClass="status-separator" text="|" />
+            <Label fx:id="statusCursorLabel" styleClass="status-widget" text="Ln 1, Col 1" />
+            <Label styleClass="status-separator" text="|" />
+            <Label fx:id="statusFileTypeLabel" styleClass="status-widget" text="" />
+            <Label styleClass="status-separator" text="|" />
+            <Label fx:id="statusIndentLabel" onMouseClicked="#onStatusIndentClick" styleClass="status-widget" text="Spaces: 4" />
+            <Label styleClass="status-separator" text="|" />
+            <Label fx:id="statusGitLabel" onMouseClicked="#onStatusGitClick" styleClass="status-widget" text="No VCS" />
+            <Label styleClass="status-separator" text="|" />
+            <Label fx:id="statusMemLabel" onMouseClicked="#onStatusMemClick" styleClass="status-widget" text="-- MB" />
+            <Label fx:id="projectsCountLabel2" visible="false" managed="false" text="" />
         </HBox>
     </bottom>
 

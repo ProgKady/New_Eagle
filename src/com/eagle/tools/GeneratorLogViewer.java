@@ -22,6 +22,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
@@ -43,9 +44,12 @@ public class GeneratorLogViewer {
     private final List<String> logSource;
     private final Timeline refresher;
     private final Button exportBtn;
+    private final Button clearBtn;
     private final Button savePromptBtn;
     private final Button savedPromptsBtn;
+    private final TextField searchField;
     private int lastKnownSize = 0;
+    private java.util.List<String> filteredItems;
 
     public GeneratorLogViewer(List<String> logSource, String projectPath) {
         this(logSource, projectPath, null);
@@ -53,17 +57,23 @@ public class GeneratorLogViewer {
 
     public GeneratorLogViewer(List<String> logSource, String projectPath, javafx.stage.Window owner) {
         this.logSource = logSource;
+        this.filteredItems = logSource;
 
         stage = new Stage();
         if (owner != null) stage.initOwner(owner);
         stage.initModality(Modality.NONE);
         stage.setTitle("Generator Log — Live");
 
-        Label header = new Label("Live Generator Log");
+        Label header = new Label("Activity Log");
         header.setStyle("-fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 0 0 5 0;");
 
         Label pathLabel = new Label(projectPath != null && !projectPath.isEmpty() ? projectPath : "");
         pathLabel.setStyle("-fx-font-size: 10px; -fx-text-fill: -text-muted; -fx-padding: 0 0 10 0;");
+
+        searchField = new TextField();
+        searchField.setPromptText("Filter log entries...");
+        searchField.setStyle("-fx-font-size: 11px; -fx-padding: 2 6;");
+        searchField.textProperty().addListener((obs, old, val) -> applyFilter());
 
         listView = new ListView<>();
         listView.setPrefSize(800, 450);
@@ -78,6 +88,9 @@ public class GeneratorLogViewer {
         exportBtn = new Button("Export Log");
         exportBtn.setOnAction(e -> exportLog());
 
+        clearBtn = new Button("Clear");
+        clearBtn.setOnAction(e -> clearLog());
+
         savePromptBtn = new Button("Save Prompt");
         savePromptBtn.setOnAction(e -> savePromptDialog());
 
@@ -90,9 +103,9 @@ public class GeneratorLogViewer {
             stage.close();
         });
 
-        btnBar.getChildren().addAll(exportBtn, savePromptBtn, savedPromptsBtn, closeBtn);
+        btnBar.getChildren().addAll(exportBtn, clearBtn, savePromptBtn, savedPromptsBtn, closeBtn);
 
-        VBox root = new VBox(6, header, pathLabel, listView, btnBar);
+        VBox root = new VBox(6, header, pathLabel, searchField, listView, btnBar);
         root.setPadding(new Insets(12));
         VBox.setVgrow(listView, Priority.ALWAYS);
 
@@ -102,6 +115,10 @@ public class GeneratorLogViewer {
         stage.setOnCloseRequest(e -> refresher.stop());
 
         refresher.play();
+    }
+
+    public void setTitle(String title) {
+        stage.setTitle(title);
     }
 
     public void show() {
@@ -122,17 +139,44 @@ public class GeneratorLogViewer {
         stage.toFront();
     }
 
+    private void applyFilter() {
+        String filter = searchField.getText().toLowerCase().trim();
+        synchronized (logSource) {
+            if (filter.isEmpty()) {
+                filteredItems = new java.util.ArrayList<>(logSource);
+            } else {
+                java.util.List<String> filtered = new java.util.ArrayList<>();
+                for (String line : logSource) {
+                    if (line.toLowerCase().contains(filter)) {
+                        filtered.add(line);
+                    }
+                }
+                filteredItems = filtered;
+            }
+        }
+        listView.getItems().clear();
+        listView.getItems().addAll(filteredItems);
+        if (!filteredItems.isEmpty()) {
+            listView.scrollTo(filteredItems.size() - 1);
+        }
+    }
+
+    private void clearLog() {
+        synchronized (logSource) {
+            logSource.clear();
+            lastKnownSize = 0;
+            filteredItems = new java.util.ArrayList<>();
+        }
+        listView.getItems().clear();
+    }
+
     private void refresh() {
         synchronized (logSource) {
             int size = logSource.size();
             if (size > lastKnownSize) {
-                listView.getItems().clear();
-                listView.getItems().addAll(logSource);
                 lastKnownSize = size;
+                applyFilter();
             }
-        }
-        if (!listView.getItems().isEmpty()) {
-            listView.scrollTo(listView.getItems().size() - 1);
         }
     }
 
