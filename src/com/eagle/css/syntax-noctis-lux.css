@@ -1,0 +1,18 @@
+/* Noctis Lux syntax highlighting */
+.syn-comment { -fx-fill: #7a8a9a; -fx-font-style: italic; }
+.syn-string { -fx-fill: #6e9b6e; }
+.syn-number { -fx-fill: #b87642; }
+.syn-keyword { -fx-fill: #b7416e; -fx-font-weight: bold; }
+.syn-functioncall { -fx-fill: #3e7ba0; }
+.syn-brace { -fx-fill: #2b3a4a; }
+.syn-tag { -fx-fill: #b7416e; }
+.syn-attr { -fx-fill: #b87642; }
+.syn-attrvalue { -fx-fill: #6e9b6e; }
+.syn-tagend { -fx-fill: #b7416e; }
+.syn-selector { -fx-fill: #b7416e; }
+.syn-property { -fx-fill: #3e7ba0; }
+.syn-color { -fx-fill: #b87642; }
+.syn-key { -fx-fill: #b7416e; }
+.syn-bool { -fx-fill: #b87642; }
+.syn-annotation { -fx-fill: #b87642; }
+.syn-default { -fx-fill: #2b3a4a; }

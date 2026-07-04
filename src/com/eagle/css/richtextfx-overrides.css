@@ -1,0 +1,186 @@
+/* Self-contained structural CSS for RichTextFX CodeArea.
+   This does NOT depend on RichTextFX's own bundled rich-text.css being found
+   on the classpath at runtime (that lookup can silently fail depending on
+   how the jar was shaded/packaged, which previously caused the editor to
+   render as plain unstyled text). Everything CodeArea needs to render
+   syntax-highlighted text, a visible caret, selection, and line numbers is
+   defined here explicitly. Colors are pulled from the active theme's -fx-*
+   custom properties so this file itself never needs to change per theme. */
+
+.code-area {
+    -fx-font-family: "Consolas", "JetBrains Mono", "Courier New", monospace;
+    -fx-font-size: 13.5px;
+    -fx-background-color: -bg-primary;
+}
+
+.code-area .styled-text-area {
+    -fx-background-color: -bg-primary;
+}
+
+.code-area .paragraph-box {
+    -fx-background-color: transparent;
+}
+
+.code-area .text {
+    -fx-font-family: "Consolas", "JetBrains Mono", "Courier New", monospace;
+}
+
+.code-area .caret {
+    -fx-stroke-width: 1.4;
+    -fx-stroke: -text-primary;
+    -fx-strikethrough-size: 1.4;
+}
+
+.code-area .selection {
+    -fx-fill: -accent-soft;
+}
+
+/* ---- GUTTER (line number area) ---- */
+.code-area .lineno {
+    -fx-background-color: -bg-secondary;
+    -fx-text-fill: -text-muted;
+    -fx-font-family: "Consolas", "JetBrains Mono", "Courier New", monospace;
+    -fx-font-size: 12px;
+    -fx-padding: 0 12 0 4;
+    -fx-cursor: default;
+}
+
+.code-area .lineno .gutter-separator {
+    -fx-background-color: -border-color;
+    -fx-min-width: 1;
+    -fx-max-width: 1;
+}
+
+/* Breakpoint dot in gutter */
+.breakpoint-dot {
+    -fx-min-width: 9;
+    -fx-min-height: 9;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 2, 0, 0, 1);
+}
+.breakpoint-dot.active {
+    -fx-background-color: #e74c3c;
+}
+.breakpoint-dot.error {
+    -fx-background-color: #e74c3c80;
+}
+.breakpoint-dot.warning {
+    -fx-background-color: #f1c40f80;
+}
+
+/* Fold arrow in gutter */
+.fold-arrow {
+    -fx-font-size: 10px;
+    -fx-padding: 0 2 0 2;
+    -fx-cursor: hand;
+    -fx-min-width: 14;
+}
+
+/* Bracket match highlight — VS Code style background + underline */
+.bracket-match {
+    -fx-background-color: rgba(255, 200, 0, 0.15);
+    -fx-font-weight: bold;
+    -rtfx-background-color: rgba(255, 200, 0, 0.15);
+    -fx-border-color: transparent transparent rgba(255, 200, 0, 0.6) transparent;
+    -fx-border-width: 0 0 2 0;
+}
+
+/* ---- SCROLLPANE ---- */
+.code-area .scroll-pane,
+.code-area .scroll-pane .viewport {
+    -fx-background-color: -bg-primary;
+}
+.code-area .scroll-pane .scroll-bar {
+    -fx-background-color: -bg-secondary;
+    -fx-pref-width: 14;
+    -fx-pref-height: 14;
+    -fx-border-color: -border-color;
+    -fx-border-width: 0 0 0 1;
+}
+.code-area .scroll-pane .scroll-bar .thumb {
+    -fx-background-color: derive(-bg-tertiary, 60%);
+    -fx-background-radius: 7;
+    -fx-pref-width: 10;
+    -fx-min-width: 10;
+    -fx-min-height: 10;
+}
+.code-area .scroll-pane .scroll-bar .thumb:hover {
+    -fx-background-color: derive(-bg-tertiary, 80%);
+}
+.code-area .scroll-pane .scroll-bar .track {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+.code-area .scroll-pane .scroll-bar .increment-button,
+.code-area .scroll-pane .scroll-bar .decrement-button {
+    -fx-padding: 0;
+    -fx-background-color: transparent;
+}
+.code-area .scroll-pane .scroll-bar .increment-arrow,
+.code-area .scroll-pane .scroll-bar .decrement-arrow {
+    -fx-padding: 0;
+    -fx-shape: "";
+}
+.code-area .scroll-pane .scroll-bar:horizontal {
+    -fx-background-color: -bg-secondary;
+    -fx-border-width: 1 0 0 0;
+    -fx-pref-height: 14;
+    -fx-min-height: 14;
+}
+
+/* ---- INLINE ERROR UNDERLINES (VS Code style squiggly underlines) ---- */
+.syn-error {
+    -fx-underline: true;
+    -rtfx-underline-color: #e74c3c;
+    -rtfx-underline-width: 2;
+    -rtfx-underline-dash-array: 3 3;
+    -fx-background-color: rgba(231, 76, 60, 0.08);
+}
+.syn-warning {
+    -fx-underline: true;
+    -rtfx-underline-color: #f1c40f;
+    -rtfx-underline-width: 2;
+    -rtfx-underline-dash-array: 3 3;
+    -fx-background-color: rgba(241, 196, 15, 0.06);
+}
+.syn-info {
+    -fx-underline: true;
+    -rtfx-underline-color: #3498db;
+    -rtfx-underline-width: 1.5;
+    -rtfx-underline-dash-array: 2 4;
+}
+
+/* Fold placeholder styling */
+.fold-placeholder {
+    -fx-text-fill: -text-muted;
+    -fx-font-style: italic;
+    -fx-opacity: 0.7;
+    -fx-font-size: 12px;
+}
+
+/* Word highlight (all occurrences of selected word) */
+.word-highlight {
+    -fx-background-color: rgba(255, 225, 0, 0.12);
+    -fx-font-weight: bold;
+}
+
+.search-highlight {
+    -fx-background-color: rgba(255, 120, 0, 0.45);
+    -fx-underline: true;
+    -fx-font-weight: bold;
+}
+
+/* Ghost text (inline ghost suggestion overlay) */
+.ghost-text {
+    -fx-text-fill: rgba(255, 255, 255, 0.2);
+    -fx-font-family: Consolas, monospace;
+}
+
+/* Inlay hints (inline parameter annotations) */
+.inlay-hint {
+    -fx-text-fill: rgba(200, 200, 200, 0.3);
+    -fx-font-family: Consolas, monospace;
+    -fx-font-style: italic;
+    -fx-font-size: 10px;
+}

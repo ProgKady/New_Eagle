@@ -1,0 +1,33 @@
+Manifest-Version: 1.0
+Main-Class: com.eagle.Main
+Class-Path: lib/ant-1.10.12.jar lib/ant-launcher-1.10.12.jar
+ lib/bouncy-castle-connector-8.0.1.jar lib/charsets.jar
+ lib/commons-8.0.1.jar lib/commons-codec-1.15.jar
+ lib/commons-collections4-4.4.jar lib/commons-compress-1.21.jar
+ lib/commons-io-2.11.0.jar lib/commons-io-20030203.000550.jar
+ lib/commons-math3-3.6.1.jar lib/commons-text-1.13.0.jar
+ lib/controlsfx-8.40.11.jar lib/core-3.0.0.jar lib/core-renderer.jar
+ lib/curvesapi-1.07.jar lib/deploy.jar lib/diffutils-1.3.0.jar
+ lib/dist.jar lib/flowless-0.6.jar lib/forms-8.0.1.jar
+ lib/gson-2.11.0.jar lib/hamcrest-core-1.1.jar lib/html2pdf-5.0.1.jar
+ lib/io-8.0.1.jar lib/ironpdf-2023.7.2.jar lib/iText-2.0.8.jar
+ lib/itext-2.1.7.jar lib/itext-carriage-0.8.0.jar
+ lib/itext-pdfa-5.5.2.jar lib/itextpdf-5.5.2.jar lib/jacob.jar
+ lib/jasperreports-6.17.0.jar
+ lib/jasperreports-shw-air-terminal-vertical-1.0.27.jar
+ lib/java-diff-utils-4.12.jar lib/javase-3.0.0.jar lib/javaws.jar
+ lib/javax.mail-1.4.7.jar lib/jbcrypt-0.4.jar lib/jce.jar lib/jcef.jar
+ lib/jfoenix.jar lib/jfr.jar lib/jfxswt.jar lib/joda-time-2.12.5.jar
+ lib/json-simple-1.1.1.jar lib/jsoup-1.11.2.jar lib/jsse.jar
+ lib/jtidy-r938.jar lib/junit-4.10.jar lib/jython-standalone-2.7.4.jar
+ lib/kernel-8.0.1.jar lib/layout-8.0.1.jar lib/log4j-api-2.18.0.jar
+ lib/management-agent.jar lib/materialfx-11.13.5-all.jar
+ lib/mssql-jdbc-7.2.2.jre8.jar lib/mysql-connector-java-5.1.3.jar
+ lib/okhttp-4.10.0.jar lib/plugin.jar lib/poi-5.2.3.jar
+ lib/poi-excelant-5.2.3.jar lib/poi-ooxml-5.2.3.jar
+ lib/poi-ooxml-lite-5.2.3.jar lib/reactfx-2.0-M5.jar lib/resources.jar
+ lib/richtextfx-0.9.1.jar lib/rt.jar lib/slf4j-api-1.7.36.jar
+ lib/SparseBitSet-1.2.jar lib/Spire.Doc.jar lib/spire.xls.free-5.1.0.jar
+ lib/sqlitejdbc-v056.jar lib/styled-xml-parser-8.0.1.jar
+ lib/svg-8.0.1.jar lib/totp-1.7.1.jar lib/undofx-2.1.0.jar
+ lib/wellbehavedfx-0.3.3.jar lib/xmlbeans-5.1.1.jar

@@ -1,0 +1,18 @@
+﻿/* VSCode Light+ syntax highlighting */
+.syn-comment { -fx-fill: #008000; -fx-font-style: italic; }
+.syn-string { -fx-fill: #a31515; }
+.syn-number { -fx-fill: #098658; }
+.syn-keyword { -fx-fill: #0000ff; -fx-font-weight: bold; }
+.syn-functioncall { -fx-fill: #795e26; }
+.syn-brace { -fx-fill: #000000; }
+.syn-tag { -fx-fill: #800000; }
+.syn-attr { -fx-fill: #e50000; }
+.syn-attrvalue { -fx-fill: #a31515; }
+.syn-tagend { -fx-fill: #800000; }
+.syn-selector { -fx-fill: #811f3f; }
+.syn-property { -fx-fill: #e50000; }
+.syn-color { -fx-fill: #000000; }
+.syn-key { -fx-fill: #795e26; }
+.syn-bool { -fx-fill: #0000ff; }
+.syn-annotation { -fx-fill: #811f3f; }
+.syn-default { -fx-fill: #000000; }

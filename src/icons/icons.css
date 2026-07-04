@@ -1,0 +1,267 @@
+/* ============================================================
+   ICONS.CSS — Master icon graphic stylesheet
+   All icons point to heading.png — replace with real icons.
+   Paths are relative to this file's location (src/icons/).
+   ============================================================ */
+
+/* ───── FILE TYPE ICONS ───── */
+.icon-file-default  { -fx-graphic: url('heading.png'); }
+.icon-file-html     { -fx-graphic: url('heading.png'); }
+.icon-file-css      { -fx-graphic: url('heading.png'); }
+.icon-file-js       { -fx-graphic: url('heading.png'); }
+.icon-file-json     { -fx-graphic: url('heading.png'); }
+.icon-file-md       { -fx-graphic: url('heading.png'); }
+.icon-file-py       { -fx-graphic: url('heading.png'); }
+.icon-file-java     { -fx-graphic: url('heading.png'); }
+.icon-file-xml      { -fx-graphic: url('heading.png'); }
+.icon-file-img      { -fx-graphic: url('heading.png'); }
+.icon-file-video    { -fx-graphic: url('heading.png'); }
+.icon-file-audio    { -fx-graphic: url('heading.png'); }
+.icon-file-pdf      { -fx-graphic: url('heading.png'); }
+.icon-file-zip      { -fx-graphic: url('heading.png'); }
+.icon-file-sql      { -fx-graphic: url('heading.png'); }
+.icon-file-sh       { -fx-graphic: url('heading.png'); }
+.icon-file-git      { -fx-graphic: url('heading.png'); }
+.icon-file-text     { -fx-graphic: url('heading.png'); }
+.icon-file-code     { -fx-graphic: url('heading.png'); }
+
+/* ───── FOLDER / PROJECT TREE ICONS ───── */
+.icon-folder        { -fx-graphic: url('heading.png'); }
+.icon-folder-open   { -fx-graphic: url('heading.png'); }
+.icon-package       { -fx-graphic: url('heading.png'); }
+.icon-project       { -fx-graphic: url('heading.png'); }
+
+/* ───── MENU ITEM ICONS (File menu) ───── */
+.menu-new-file      { -fx-graphic: url('heading.png'); }
+.menu-new-folder    { -fx-graphic: url('heading.png'); }
+.menu-quick-open    { -fx-graphic: url('heading.png'); }
+.menu-save          { -fx-graphic: url('heading.png'); }
+.menu-save-as       { -fx-graphic: url('heading.png'); }
+.menu-save-all      { -fx-graphic: url('heading.png'); }
+.menu-close-file    { -fx-graphic: url('heading.png'); }
+.menu-close-all     { -fx-graphic: url('heading.png'); }
+.menu-local-history { -fx-graphic: url('heading.png'); }
+.menu-export-zip    { -fx-graphic: url('heading.png'); }
+.menu-print         { -fx-graphic: url('heading.png'); }
+.menu-close-proj    { -fx-graphic: url('heading.png'); }
+.menu-exit          { -fx-graphic: url('heading.png'); }
+
+/* ───── MENU ITEM ICONS (Edit menu) ───── */
+.menu-undo          { -fx-graphic: url('heading.png'); }
+.menu-redo          { -fx-graphic: url('heading.png'); }
+.menu-cut           { -fx-graphic: url('heading.png'); }
+.menu-copy          { -fx-graphic: url('heading.png'); }
+.menu-paste         { -fx-graphic: url('heading.png'); }
+.menu-dup-line      { -fx-graphic: url('heading.png'); }
+.menu-del-line      { -fx-graphic: url('heading.png'); }
+.menu-move-up       { -fx-graphic: url('heading.png'); }
+.menu-move-down     { -fx-graphic: url('heading.png'); }
+.menu-find-replace  { -fx-graphic: url('heading.png'); }
+.menu-find-files    { -fx-graphic: url('heading.png'); }
+.menu-select-all    { -fx-graphic: url('heading.png'); }
+.menu-toggle-cmt    { -fx-graphic: url('heading.png'); }
+.menu-indent        { -fx-graphic: url('heading.png'); }
+.menu-outdent       { -fx-graphic: url('heading.png'); }
+
+/* ───── MENU ITEM ICONS (View menu) ───── */
+.menu-sidebar       { -fx-graphic: url('heading.png'); }
+.menu-live-preview  { -fx-graphic: url('heading.png'); }
+.menu-ai-assist     { -fx-graphic: url('heading.png'); }
+.menu-terminal      { -fx-graphic: url('heading.png'); }
+.menu-git           { -fx-graphic: url('heading.png'); }
+.menu-todo          { -fx-graphic: url('heading.png'); }
+.menu-statusbar     { -fx-graphic: url('heading.png'); }
+.menu-md-preview    { -fx-graphic: url('heading.png'); }
+.menu-img-preview   { -fx-graphic: url('heading.png'); }
+.menu-zoom-in       { -fx-graphic: url('heading.png'); }
+.menu-zoom-out      { -fx-graphic: url('heading.png'); }
+.menu-zoom-reset    { -fx-graphic: url('heading.png'); }
+.menu-fullscreen    { -fx-graphic: url('heading.png'); }
+.menu-word-wrap     { -fx-graphic: url('heading.png'); }
+
+/* ───── MENU ITEM ICONS (Navigate menu) ───── */
+.menu-go-line       { -fx-graphic: url('heading.png'); }
+.menu-go-file       { -fx-graphic: url('heading.png'); }
+.menu-go-def        { -fx-graphic: url('heading.png'); }
+.menu-go-back       { -fx-graphic: url('heading.png'); }
+.menu-go-forward    { -fx-graphic: url('heading.png'); }
+.menu-switch-right  { -fx-graphic: url('heading.png'); }
+.menu-switch-left   { -fx-graphic: url('heading.png'); }
+
+/* ───── MENU ITEM ICONS (Project menu) ───── */
+.menu-new-proj      { -fx-graphic: url('heading.png'); }
+.menu-refresh       { -fx-graphic: url('heading.png'); }
+.menu-show-explorer { -fx-graphic: url('heading.png'); }
+.menu-open-term     { -fx-graphic: url('heading.png'); }
+.menu-copy-path     { -fx-graphic: url('heading.png'); }
+.menu-ai-gen        { -fx-graphic: url('heading.png'); }
+.menu-ai-dev        { -fx-graphic: url('heading.png'); }
+.menu-ai-chat       { -fx-graphic: url('heading.png'); }
+.menu-proj-props    { -fx-graphic: url('heading.png'); }
+
+/* ───── MENU ITEM ICONS (Run menu) ───── */
+.menu-run-preview   { -fx-graphic: url('heading.png'); }
+.menu-browser       { -fx-graphic: url('heading.png'); }
+.menu-run-js        { -fx-graphic: url('heading.png'); }
+.menu-debug         { -fx-graphic: url('heading.png'); }
+.menu-build-apk     { -fx-graphic: url('heading.png'); }
+.menu-deploy        { -fx-graphic: url('heading.png'); }
+.menu-quick-apk     { -fx-graphic: url('heading.png'); }
+
+/* ───── MENU ITEM ICONS (Tools menu) ───── */
+.menu-format        { -fx-graphic: url('heading.png'); }
+.menu-cmd-palette   { -fx-graphic: url('heading.png'); }
+.menu-minify        { -fx-graphic: url('heading.png'); }
+.menu-beautify      { -fx-graphic: url('heading.png'); }
+.menu-snippets      { -fx-graphic: url('heading.png'); }
+.menu-color-picker  { -fx-graphic: url('heading.png'); }
+.menu-api-tester    { -fx-graphic: url('heading.png'); }
+.menu-sql-runner    { -fx-graphic: url('heading.png'); }
+.menu-er-diagram    { -fx-graphic: url('heading.png'); }
+.menu-er-designer   { -fx-graphic: url('heading.png'); }
+.menu-project-map   { -fx-graphic: url('heading.png'); }
+.menu-dep-vis       { -fx-graphic: url('heading.png'); }
+.menu-live-share    { -fx-graphic: url('heading.png'); }
+.menu-figma-html    { -fx-graphic: url('heading.png'); }
+.menu-voice-code    { -fx-graphic: url('heading.png'); }
+.menu-export-flutter { -fx-graphic: url('heading.png'); }
+.menu-proj-replay   { -fx-graphic: url('heading.png'); }
+.menu-db-viewer     { -fx-graphic: url('heading.png'); }
+.menu-settings      { -fx-graphic: url('heading.png'); }
+
+/* ───── SNIPPET MENU ICONS ───── */
+.menu-snip-html     { -fx-graphic: url('heading.png'); }
+.menu-snip-css      { -fx-graphic: url('heading.png'); }
+.menu-snip-console  { -fx-graphic: url('heading.png'); }
+.menu-snip-func     { -fx-graphic: url('heading.png'); }
+.menu-snip-react    { -fx-graphic: url('heading.png'); }
+.menu-snip-for      { -fx-graphic: url('heading.png'); }
+.menu-snip-if       { -fx-graphic: url('heading.png'); }
+
+/* ───── PLUGIN MENU ICONS ───── */
+.menu-new-plugin    { -fx-graphic: url('heading.png'); }
+.menu-plugin-mgr    { -fx-graphic: url('heading.png'); }
+.menu-ext-market    { -fx-graphic: url('heading.png'); }
+.menu-install-plug  { -fx-graphic: url('heading.png'); }
+.menu-browse-plug   { -fx-graphic: url('heading.png'); }
+
+/* ───── SOURCE CONTROL MENU ICONS ───── */
+.menu-git-graph     { -fx-graphic: url('heading.png'); }
+.menu-git-status    { -fx-graphic: url('heading.png'); }
+.menu-git-commit    { -fx-graphic: url('heading.png'); }
+.menu-git-push      { -fx-graphic: url('heading.png'); }
+.menu-git-pull      { -fx-graphic: url('heading.png'); }
+.menu-git-init      { -fx-graphic: url('heading.png'); }
+
+/* ───── HELP MENU ICONS ───── */
+.menu-keys          { -fx-graphic: url('heading.png'); }
+.menu-docs          { -fx-graphic: url('heading.png'); }
+.menu-updates       { -fx-graphic: url('heading.png'); }
+.menu-report        { -fx-graphic: url('heading.png'); }
+.menu-about         { -fx-graphic: url('heading.png'); }
+
+/* ───── TOOLBAR BUTTON ICONS ───── */
+.toolbar-save       { -fx-graphic: url('heading.png'); }
+.toolbar-undo       { -fx-graphic: url('heading.png'); }
+.toolbar-find       { -fx-graphic: url('heading.png'); }
+.toolbar-preview    { -fx-graphic: url('heading.png'); }
+.toolbar-ai         { -fx-graphic: url('heading.png'); }
+.toolbar-terminal   { -fx-graphic: url('heading.png'); }
+.toolbar-git        { -fx-graphic: url('heading.png'); }
+.toolbar-debug      { -fx-graphic: url('heading.png'); }
+.toolbar-quick-apk  { -fx-graphic: url('heading.png'); }
+.toolbar-settings   { -fx-graphic: url('heading.png'); }
+.toolbar-browse     { -fx-graphic: url('heading.png'); }
+.toolbar-new-proj   { -fx-graphic: url('heading.png'); }
+.toolbar-refresh    { -fx-graphic: url('heading.png'); }
+.toolbar-new-file   { -fx-graphic: url('heading.png'); }
+.toolbar-new-folder { -fx-graphic: url('heading.png'); }
+
+/* ───── SIDEBAR ICONS ───── */
+.sidebar-explorer   { -fx-graphic: url('heading.png'); }
+.sidebar-preview    { -fx-graphic: url('heading.png'); }
+.sidebar-close      { -fx-graphic: url('heading.png'); }
+
+/* ───── BUILDER COMPONENT ICONS (ComponentType) ───── */
+.comp-text          { -fx-graphic: url('heading.png'); }
+.comp-button        { -fx-graphic: url('heading.png'); }
+.comp-form          { -fx-graphic: url('heading.png'); }
+.comp-media         { -fx-graphic: url('heading.png'); }
+.comp-layout        { -fx-graphic: url('heading.png'); }
+.comp-data          { -fx-graphic: url('heading.png'); }
+.comp-feedback      { -fx-graphic: url('heading.png'); }
+.comp-indicator     { -fx-graphic: url('heading.png'); }
+.comp-advanced      { -fx-graphic: url('heading.png'); }
+
+/* ───── CODE COMPLETION ICONS ───── */
+.compl-tag          { -fx-graphic: url('heading.png'); }
+.compl-keyword      { -fx-graphic: url('heading.png'); }
+.compl-property     { -fx-graphic: url('heading.png'); }
+.compl-snippet      { -fx-graphic: url('heading.png'); }
+.compl-function     { -fx-graphic: url('heading.png'); }
+.compl-method       { -fx-graphic: url('heading.png'); }
+.compl-variable     { -fx-graphic: url('heading.png'); }
+.compl-type         { -fx-graphic: url('heading.png'); }
+.compl-operator     { -fx-graphic: url('heading.png'); }
+.compl-builtin      { -fx-graphic: url('heading.png'); }
+.compl-value        { -fx-graphic: url('heading.png'); }
+
+/* ───── SEVERITY / PROBLEMS ICONS ───── */
+.severity-error     { -fx-graphic: url('heading.png'); }
+.severity-warning   { -fx-graphic: url('heading.png'); }
+.severity-info      { -fx-graphic: url('heading.png'); }
+.severity-hint      { -fx-graphic: url('heading.png'); }
+
+/* ───── TASK STATUS ICONS ───── */
+.task-pending       { -fx-graphic: url('heading.png'); }
+.task-running       { -fx-graphic: url('heading.png'); }
+.task-completed     { -fx-graphic: url('heading.png'); }
+.task-failed        { -fx-graphic: url('heading.png'); }
+.task-skipped       { -fx-graphic: url('heading.png'); }
+
+/* ───── MEDIA PLAYER ICONS ───── */
+.media-play         { -fx-graphic: url('heading.png'); }
+.media-pause        { -fx-graphic: url('heading.png'); }
+.media-stop         { -fx-graphic: url('heading.png'); }
+
+/* ───── STATUS BAR ICONS ───── */
+.status-ready       { -fx-graphic: url('heading.png'); }
+.status-build-ok    { -fx-graphic: url('heading.png'); }
+.status-build-fail  { -fx-graphic: url('heading.png'); }
+
+/* ───── MISC UI ICONS ───── */
+.icon-plus          { -fx-graphic: url('heading.png'); }
+.icon-close         { -fx-graphic: url('heading.png'); }
+.icon-search        { -fx-graphic: url('heading.png'); }
+.icon-edit          { -fx-graphic: url('heading.png'); }
+.icon-delete        { -fx-graphic: url('heading.png'); }
+.icon-duplicate     { -fx-graphic: url('heading.png'); }
+.icon-rename        { -fx-graphic: url('heading.png'); }
+.icon-download      { -fx-graphic: url('heading.png'); }
+.icon-upload        { -fx-graphic: url('heading.png'); }
+.icon-export        { -fx-graphic: url('heading.png'); }
+.icon-home          { -fx-graphic: url('heading.png'); }
+.icon-android       { -fx-graphic: url('heading.png'); }
+.icon-database      { -fx-graphic: url('heading.png'); }
+.icon-cloud         { -fx-graphic: url('heading.png'); }
+.icon-lightbulb     { -fx-graphic: url('heading.png'); }
+.icon-note          { -fx-graphic: url('heading.png'); }
+.icon-bug           { -fx-graphic: url('heading.png'); }
+.icon-robot         { -fx-graphic: url('heading.png'); }
+.icon-warning       { -fx-graphic: url('heading.png'); }
+.icon-info          { -fx-graphic: url('heading.png'); }
+.icon-theme-toggle  { -fx-graphic: url('heading.png'); }
+
+/* ───── WELCOME / HOME SCREEN ICONS ───── */
+.welcome-recent     { -fx-graphic: url('heading.png'); }
+.welcome-new-proj   { -fx-graphic: url('heading.png'); }
+.welcome-open-proj  { -fx-graphic: url('heading.png'); }
+.welcome-template   { -fx-graphic: url('heading.png'); }
+
+/* ───── MEDIA VIEWER ICONS ───── */
+.media-prev         { -fx-graphic: url('heading.png'); }
+.media-next         { -fx-graphic: url('heading.png'); }
+
+/* ───── TOGGLE BUTTON GENERIC ───── */
+.toggle-on          { -fx-graphic: url('heading.png'); }
+.toggle-off         { -fx-graphic: url('heading.png'); }

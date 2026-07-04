@@ -1,0 +1,18 @@
+/* Dracula syntax highlighting */
+.syn-comment { -fx-fill: #6272a4; -fx-font-style: italic; }
+.syn-string { -fx-fill: #f1fa8c; }
+.syn-number { -fx-fill: #bd93f9; }
+.syn-keyword { -fx-fill: #ff79c6; -fx-font-weight: bold; }
+.syn-functioncall { -fx-fill: #50fa7b; }
+.syn-brace { -fx-fill: #f8f8f2; }
+.syn-tag { -fx-fill: #ff79c6; }
+.syn-attr { -fx-fill: #f1fa8c; }
+.syn-attrvalue { -fx-fill: #f1fa8c; }
+.syn-tagend { -fx-fill: #ff79c6; }
+.syn-selector { -fx-fill: #50fa7b; }
+.syn-property { -fx-fill: #8be9fd; }
+.syn-color { -fx-fill: #bd93f9; }
+.syn-key { -fx-fill: #ff79c6; }
+.syn-bool { -fx-fill: #bd93f9; }
+.syn-annotation { -fx-fill: #f1fa8c; }
+.syn-default { -fx-fill: #f8f8f2; }

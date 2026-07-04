@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane fx:id="rootPane" prefHeight="818.0" prefWidth="1276.0" styleClass="welcome-root" stylesheets="@../css/base.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.eagle.controller.WelcomeController">
+
+    <top>
+        <VBox styleClass="welcome-header">
+            <HBox alignment="CENTER_LEFT" spacing="10" styleClass="toolbar-container">
+                <padding><Insets bottom="14" left="24" right="20" top="14" /></padding>
+                <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" styleClass="welcome-logo-text" text="Eagle IDE" />
+                <HBox HBox.hgrow="ALWAYS" />
+                <StackPane fx:id="themeTogglePane" onMouseClicked="#onToggleTheme" styleClass="theme-toggle">
+                    <Circle fx:id="toggleKnob" radius="10" styleClass="theme-toggle-knob" translateX="-12" />
+                </StackPane>
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <HBox alignment="CENTER" spacing="30">
+            <padding><Insets bottom="32" left="32" right="32" top="24" /></padding>
+
+            <!-- LEFT: Welcome + Quick Start + Tool Cards -->
+            <VBox maxWidth="480" minWidth="400" spacing="16" HBox.hgrow="ALWAYS">
+
+                <!-- Greeting -->
+                <VBox spacing="6">
+                    <Text styleClass="welcome-greeting" text="Welcome back, friend!" />
+                    <Label styleClass="subtitle-text" text="Create a new web project or open an existing one to start editing HTML, CSS and JavaScript." wrapText="true" />
+                </VBox>
+
+                <!-- Quick actions -->
+                <HBox spacing="12">
+                    <Button maxWidth="Infinity" onAction="#onNewProject" styleClass="btn-primary" text="+ New Project" HBox.hgrow="ALWAYS" />
+                    <Button maxWidth="Infinity" onAction="#onOpenProject" styleClass="btn-secondary" text="Open Project" visible="false" HBox.hgrow="ALWAYS" />
+                </HBox>
+
+                <!-- Separator -->
+                <Separator styleClass="welcome-separator" />
+
+                <!-- Label -->
+                <Label styleClass="section-label" text="Build Tools" />
+
+                <!-- Tool cards grid -->
+                <GridPane fx:id="apkToolsGrid" hgap="10" styleClass="tools-grid" vgap="10">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="120" percentWidth="50" />
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="120" percentWidth="50" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints vgrow="NEVER" />
+                        <RowConstraints vgrow="NEVER" />
+                        <RowConstraints vgrow="NEVER" />
+                        <RowConstraints vgrow="NEVER" />
+                    </rowConstraints>
+
+                    <!-- Row 0 -->
+                    <VBox onMouseClicked="#buildhtmlapkaction" styleClass="tool-card" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <padding><Insets bottom="12" left="14" right="14" top="14" /></padding>
+                        <ImageView fitHeight="36" fitWidth="36" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../icons/icons8-code-100.png" />
+                        </ImageView>
+                        <Label styleClass="tool-card-label" text="HTML → APK" />
+                        <Label styleClass="tool-card-desc" text="Build web app APK" />
+                    </VBox>
+
+                    <VBox onMouseClicked="#buildjsapkaction" styleClass="tool-card" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <padding><Insets bottom="12" left="14" right="14" top="14" /></padding>
+                        <ImageView fitHeight="36" fitWidth="36" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../icons/icons8-js-100%20(1).png" />
+                        </ImageView>
+                        <Label styleClass="tool-card-label" text="JS → APK" />
+                        <Label styleClass="tool-card-desc" text="DroidScript apps" />
+                    </VBox>
+
+                    <!-- Row 1 -->
+                    <VBox onMouseClicked="#buildpdfapkaction" styleClass="tool-card" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                        <padding><Insets bottom="12" left="14" right="14" top="14" /></padding>
+                        <ImageView fitHeight="36" fitWidth="36" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../icons/icons8-adobe-acrobat-reader-100.png" />
+                        </ImageView>
+                        <Label styleClass="tool-card-label" text="PDF → APK" />
+                        <Label styleClass="tool-card-desc" text="Document viewer app" />
+                    </VBox>
+
+                    <!-- Row 2 -->
+                    <VBox onMouseClicked="#buildwebsiteapkaction" styleClass="tool-card" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <padding><Insets bottom="12" left="14" right="14" top="14" /></padding>
+                        <ImageView fitHeight="36" fitWidth="36" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../icons/icons8-quora-100.png" />
+                        </ImageView>
+                        <Label styleClass="tool-card-label" text="Website → APK" />
+                        <Label styleClass="tool-card-desc" text="Wrap site as app" />
+                    </VBox>
+
+                    <VBox onMouseClicked="#buildwebappapkaction" styleClass="tool-card" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                        <padding><Insets bottom="12" left="14" right="14" top="14" /></padding>
+                        <ImageView fitHeight="36" fitWidth="36" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../icons/icons8-code-100.png" />
+                        </ImageView>
+                        <Label styleClass="tool-card-label" text="Web App → APK" />
+                        <Label styleClass="tool-card-desc" text="React/Vue/Angular/Next/Nuxt/Svelte" />
+                    </VBox>
+
+                    <!-- Row 3 -->
+                    <VBox onMouseClicked="#buildjavafxapkaction" styleClass="tool-card" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <padding><Insets bottom="12" left="14" right="14" top="14" /></padding>
+                        <ImageView fitHeight="36" fitWidth="36" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../icons/icons8-code-100.png" />
+                        </ImageView>
+                        <Label styleClass="tool-card-label" text="JavaFX → APK" />
+                        <Label styleClass="tool-card-desc" text="Convert JavaFX JAR to APK" />
+                    </VBox>
+
+                    <!-- Row 3: Build Desktop + Build Android -->
+                    <VBox onMouseClicked="#onBuildDesktop" styleClass="tool-card" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                        <padding><Insets bottom="12" left="14" right="14" top="14" /></padding>
+                        <ImageView fitHeight="36" fitWidth="36" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../icons/icons8-code-100.png" />
+                        </ImageView>
+                        <Label styleClass="tool-card-label" text="Web → Desktop" />
+                        <Label styleClass="tool-card-desc" text="Electron / Tauri" />
+                    </VBox>
+                    <VBox onMouseClicked="#onBuildAndroid" styleClass="tool-card" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <padding><Insets bottom="12" left="14" right="14" top="14" /></padding>
+                        <ImageView fitHeight="36" fitWidth="36" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../icons/icons8-code-100.png" />
+                        </ImageView>
+                        <Label styleClass="tool-card-label" text="Web → Android" />
+                        <Label styleClass="tool-card-desc" text="Capacitor hybrid" />
+                    </VBox>
+                </GridPane>
+            </VBox>
+
+            <!-- RIGHT: Recent Projects + Dashboard Panel -->
+            <HBox maxWidth="Infinity" minHeight="320" spacing="14" HBox.hgrow="ALWAYS">
+                <VBox maxWidth="320" minWidth="200" prefHeight="728.0" prefWidth="299.0" spacing="14" HBox.hgrow="NEVER">
+                    <Label styleClass="section-label" text="Recent Projects" />
+                <HBox alignment="CENTER_LEFT" prefHeight="35.0" spacing="10.0">
+                   <children>
+                          <Label style="-fx-font-size: 11px; -fx-text-fill: -text-muted;" text="Double-click or right-click for more options." />
+                      <Region HBox.hgrow="ALWAYS" />
+                      <HBox alignment="CENTER_LEFT" spacing="10.0">
+                         <children>
+                            <Label style="-fx-font-size: 11px; -fx-text-fill: -text-muted;" text="Refresh" />
+                            <ImageView fitHeight="20.0" fitWidth="20.0" onMouseClicked="#rofo" pickOnBounds="true" preserveRatio="true">
+                               <image>
+                                  <Image url="@../icons/recycling-symbol.png" />
+                               </image>
+                               <cursor>
+                                  <Cursor fx:constant="HAND" />
+                               </cursor>
+                            </ImageView>
+                         </children>
+                      </HBox>
+                   </children>
+                </HBox>
+                    <ListView fx:id="recentProjectsList" onMouseClicked="#onRecentItemClicked" styleClass="project-list" VBox.vgrow="ALWAYS" />
+                </VBox>
+                <VBox fx:id="dashboardPanel" spacing="8" HBox.hgrow="ALWAYS" />
+            </HBox>
+        </HBox>
+    </center>
+
+</BorderPane>

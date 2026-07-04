@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckMenuItem?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.web.WebView?>
+
+<BorderPane fx:id="rootPane" styleClass="main-container" stylesheets="@../css/base.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.eagle.controller.EditorController">
+
+    <top>
+        <VBox spacing="0">
+            <!-- MENU BAR -->
+            <MenuBar styleClass="menu-bar">
+
+                <!-- ============= FILE ============= -->
+                <Menu text="File">
+                    <MenuItem accelerator="$shortcut+N" onAction="#onNewFile" text="New File" />
+                    <MenuItem accelerator="$shortcut+shift+N" onAction="#onNewFolder" text="New Folder" />
+                    <SeparatorMenuItem />
+                    <MenuItem accelerator="$shortcut+P" onAction="#onQuickOpen" text="Quick Open..." />
+                    <Menu text="Open Recent">
+                        <MenuItem disable="true" text="No recent files" />
+                    </Menu>
+                    <SeparatorMenuItem />
+                    <MenuItem accelerator="$shortcut+S" onAction="#onSave" text="Save" />
+                    <MenuItem accelerator="$shortcut+shift+S" onAction="#onSaveAs" text="Save As..." />
+                    <MenuItem accelerator="$shortcut+alt+S" onAction="#onSaveAll" text="Save All" />
+                    <SeparatorMenuItem />
+                    <MenuItem accelerator="$shortcut+W" onAction="#onCloseFile" text="Close File" />
+                    <MenuItem accelerator="$shortcut+shift+W" onAction="#onCloseAllFiles" text="Close All Files" />
+                    <SeparatorMenuItem />
+                    <MenuItem accelerator="$shortcut+alt+H" onAction="#onLocalHistory" text="Local History..." />
+                    <SeparatorMenuItem />
+                    <MenuItem accelerator="$shortcut+E" onAction="#onExportZip" text="Export as ZIP..." />
+                    <MenuItem accelerator="$shortcut+shift+P" onAction="#onPrint" text="Print..." />
+                    <SeparatorMenuItem />
+                    <MenuItem onAction="#onCloseProject" text="Close Project" />
+                    <MenuItem onAction="#onExit" text="Exit" />
+                </Menu>
+
+                <!-- ============= EDIT ============= -->
+                <Menu text="Edit">
+                    <MenuItem accelerator="$shortcut+Z" onAction="#onUndo" text="Undo" />
+                    <MenuItem accelerator="$shortcut+Y" onAction="#onRedo" text="Redo" />
+                    <SeparatorMenuItem />
+                    <MenuItem accelerator="$shortcut+X" onAction="#onCut" text="Cut" />
+                    <MenuItem accelerator="$shortcut+C" onAction="#onCopy" text="Copy" />
+                    <MenuItem accelerator="$shortcut+V" onAction="#onPaste" text="Paste" />
+                    <SeparatorMenuItem />
+                    <MenuItem accelerator="$shortcut+D" onAction="#onDuplicateLine" text="Duplicate Line" />
+                    <MenuItem accelerator="$shortcut+shift+K" onAction="#onDeleteLine" text="Delete Line" />
+                    <MenuItem accelerator="$shortcut+alt+UP" onAction="#onMoveLineUp" text="Move Line Up" />
+                    <MenuItem accelerator="$shortcut+alt+DOWN" onAction="#onMoveLineDown" text="Move Line Down" />
+                    <SeparatorMenuItem />
+                    <MenuItem accelerator="$shortcut+F" onAction="#onFindReplace" text="Find / Replace..." />
+                    <MenuItem accelerator="$shortcut+shift+F" onAction="#onFindInFiles" text="Find in Files..." />
+                    <SeparatorMenuItem />
+                    <MenuItem accelerator="$shortcut+A" onAction="#onSelectAll" text="Select All" />
+                    <MenuItem accelerator="$shortcut+SLASH" onAction="#onToggleComment" text="Toggle Comment" />
+                    <MenuItem accelerator="TAB" onAction="#onIndent" text="Indent" />
+                    <MenuItem accelerator="$shortcut+TAB" onAction="#onOutdent" text="Outdent" />
+                </Menu>
+
+                <!-- ============= SELECTION ============= -->
+                <Menu text="Selection">
+                    <MenuItem accelerator="$shortcut+A" onAction="#onSelectAll" text="Select All" />
+                    <MenuItem accelerator="$shortcut+shift+UP" onAction="#onExpandSelection" text="Expand Selection" />
+                    <MenuItem accelerator="$shortcut+shift+DOWN" onAction="#onShrinkSelection" text="Shrink Selection" />
+                    <SeparatorMenuItem />
+                    <MenuItem accelerator="$shortcut+shift+D" onAction="#onDuplicateLine" text="Copy Line" />
+                    <MenuItem onAction="#onDeleteLine" text="Cut Line" />
+                    <SeparatorMenuItem />
+                    <MenuItem onAction="#onSplitLines" text="Split into Lines" />
+                    <MenuItem accelerator="$shortcut+J" onAction="#onJoinLines" text="Join Lines" />
+                </Menu>
+
+                <!-- ============= VIEW ============= -->
+                <Menu text="View">
+                    <CheckMenuItem fx:id="viewSidebarItem" accelerator="$shortcut+B" onAction="#onToggleSidebar" selected="true" text="Sidebar" />
+                    <CheckMenuItem fx:id="viewPreviewItem" accelerator="$shortcut+alt+P" onAction="#onTogglePreview" selected="true" text="Live Preview" />
+                    <CheckMenuItem fx:id="viewAiItem" accelerator="$shortcut+shift+I" onAction="#onToggleAiAssistant" text="AI Assistant" />
+                    <CheckMenuItem fx:id="viewTerminalItem" accelerator="$shortcut+T" onAction="#onToggleTerminal" text="Terminal" />
+                    <CheckMenuItem fx:id="viewGitItem" accelerator="$shortcut+shift+G" onAction="#onToggleGit" text="Git" />
+                    <CheckMenuItem fx:id="viewTodoItem" accelerator="$shortcut+shift+T" onAction="#onToggleTodo" text="TODO / FIXME" />
+                    <CheckMenuItem fx:id="viewClipboardItem" accelerator="$shortcut+shift+V" onAction="#onToggleClipboardHistory" text="Clipboard History" />
+                    <CheckMenuItem fx:id="viewScratchPadItem" accelerator="$shortcut+shift+N" onAction="#onToggleScratchPad" text="Scratch Pad" />
+                    <CheckMenuItem fx:id="viewStatusBarItem" onAction="#onToggleStatusBar" selected="true" text="Status Bar" />
+                    <SeparatorMenuItem />
+                    <MenuItem accelerator="$shortcut+shift+M" onAction="#onMarkdownPreview" text="Markdown Preview" />
+                    <MenuItem accelerator="$shortcut+alt+I" onAction="#onImagePreview" text="Image Preview" />
+                    <SeparatorMenuItem />
+                    <MenuItem accelerator="$shortcut+EQUALS" onAction="#onZoomIn" text="Zoom In" />
+                    <MenuItem accelerator="$shortcut+MINUS" onAction="#onZoomOut" text="Zoom Out" />
+                    <MenuItem accelerator="$shortcut+0" onAction="#onZoomReset" text="Reset Zoom" />
+                    <SeparatorMenuItem />
+                    <MenuItem accelerator="F11" onAction="#onToggleFullScreen" text="Toggle Full Screen" />
+                    <SeparatorMenuItem />
+                    <CheckMenuItem fx:id="viewWordWrapItem" onAction="#onToggleWordWrap" selected="true" text="Word Wrap" />
+                    <MenuItem onAction="#onToggleTabVisibility" text="Toggle Tabs" />
+                </Menu>
+
+                <!-- ============= NAVIGATE ============= -->
+                <Menu text="Navigate">
+                    <MenuItem accelerator="$shortcut+G" onAction="#onGoToLine" text="Go to Line..." />
+                    <MenuItem accelerator="$shortcut+shift+O" onAction="#onGoToFile" text="Go to File..." />
+                    <MenuItem accelerator="$shortcut+shift+D" onAction="#onGoToDefinition" text="Go to Definition" />
+                    <MenuItem accelerator="$shortcut+shift+F12" onAction="#onFindReferences" text="Find References" />
+                    <MenuItem accelerator="$shortcut+F2" onAction="#onRenameSymbol" text="Rename Symbol" />
+                    <SeparatorMenuItem />
+                    <MenuItem accelerator="$shortcut+alt+LEFT" onAction="#onGoBack" text="Go Back" />
+                    <MenuItem accelerator="$shortcut+alt+RIGHT" onAction="#onGoForward" text="Go Forward" />
+                    <SeparatorMenuItem />
+                    <MenuItem accelerator="$shortcut+shift+TAB" onAction="#onSwitchTabRight" text="Switch Tab Right" />
+                    <MenuItem accelerator="$shortcut+TAB" onAction="#onSwitchTabLeft" text="Switch Tab Left" />
+                </Menu>
+
+                <!-- ============= PROJECT ============= -->
+                <Menu text="Project">
+                    <MenuItem accelerator="$shortcut+shift+P" onAction="#onNewProjectFromEditor" text="New Project..." />
+                    <MenuItem accelerator="$shortcut+R" onAction="#onRefreshProject" text="Refresh Files" />
+                    <SeparatorMenuItem />
+                    <MenuItem onAction="#onShowProjectInExplorer" text="Show in Explorer" />
+                    <MenuItem accelerator="$shortcut+shift+C" onAction="#onOpenTerminal" text="Open Terminal Here" />
+                    <MenuItem onAction="#onCopyProjectPath" text="Copy Project Path" />
+                    <SeparatorMenuItem />
+                    <MenuItem onAction="#onExportZip" text="Export as ZIP..." />
+                    <SeparatorMenuItem />
+                    <Menu text="Add Run Config">
+                        <MenuItem onAction="#onAddDesktopRunFiles" text="Desktop (Electron)" />
+                        <MenuItem onAction="#onAddAndroidRunFiles" text="Android (Capacitor / Cordova / React Native / NativeScript)" visible="false" />
+                    </Menu>
+                    <SeparatorMenuItem />
+                    <MenuItem onAction="#onGenerateProject" text="AI Project Generator..." />
+                    <MenuItem onAction="#onDevelopProjectWithAi" text="Develop Project with AI..." />
+                    <MenuItem accelerator="$shortcut+alt+A" onAction="#onAiChatProject" text="AI Chat About Project..." />
+                    <SeparatorMenuItem />
+                    <MenuItem onAction="#onProjectProperties" text="Project Properties..." />
+                </Menu>
+
+                <!-- ============= RUN / PREVIEW ============= -->
+                <Menu text="Run">
+                    <MenuItem accelerator="F5" onAction="#onRunProject" text="Run Project" />
+                    <SeparatorMenuItem />
+                    <CheckMenuItem fx:id="runPreviewItem" accelerator="$shortcut+alt+P" onAction="#onTogglePreview" selected="true" text="Live Preview" />
+                    <MenuItem accelerator="F12" onAction="#onPreviewInBrowser" text="Preview in Browser" />
+                    <SeparatorMenuItem />
+                    <MenuItem accelerator="$shortcut+alt+J" onAction="#onRunJs" text="Run JS File" />
+                    <MenuItem accelerator="$shortcut+shift+D" onAction="#onToggleDebugger" text="Debug" />
+                    <SeparatorMenuItem />
+                    <MenuItem onAction="#onDeploy" text="Deploy..." />
+                </Menu>
+
+                <!-- ============= ANDROID ============= -->
+                <Menu text="Android">
+                    <Menu text="Create Android Run Configs" visible="false">
+                        <MenuItem onAction="#addCapacitorFiles" text="Capacitor" />
+                        <MenuItem onAction="#addCordovaFiles" text="Cordova" />
+                        <MenuItem onAction="#addReactNativeFiles" text="React Native" />
+                        <MenuItem onAction="#addNativeScriptFiles" text="NativeScript" />
+                    </Menu>
+                    <SeparatorMenuItem visible="false" />
+                    <MenuItem onAction="#showAndroidSdkTools" text="Android SDK Tools..." />
+                    <MenuItem onAction="#createOrLaunchEmulator" text="AVD Manager (Create/Launch Emulator)..." />
+                    <MenuItem onAction="#listAndroidDevices" text="List Connected Devices" />
+                    <MenuItem onAction="#runAndroidOnDevice" text="Run on Device..." />
+                    <SeparatorMenuItem />
+                    <MenuItem accelerator="$shortcut+alt+B" onAction="#onBuildToApk" text="Build APK..." />
+                    <MenuItem accelerator="$shortcut+alt+Q" onAction="#onQuickBuildApk" text="Quick APK" />
+                    <SeparatorMenuItem visible="false" />
+                    <MenuItem onAction="#cleanAndroidRunFiles" text="Clean Android Files" visible="false" />
+                    <SeparatorMenuItem />
+                    <MenuItem onAction="#onDeviceFileExplorer" text="Device File Explorer..." />
+                    <MenuItem onAction="#onGenerateSignedBundle" text="Generate Signed Bundle / APK..." />
+                </Menu>
+
+                <!-- ============= DESKTOP ============= -->
+                <Menu text="Desktop">
+                    <Menu text="Create Desktop Run Configs">
+                        <MenuItem onAction="#addElectronFiles" text="Electron" />
+                        <MenuItem onAction="#addTauriFiles" text="Tauri" visible="false" />
+                        <MenuItem onAction="#addNwjsFiles" text="NW.js" visible="false" />
+                        <MenuItem onAction="#addNeutralinoFiles" text="Neutralino.js" visible="false" />
+                    </Menu>
+                    <SeparatorMenuItem />
+                    <MenuItem onAction="#onBuildDesktopApp" text="Build Desktop App..." />
+                    <MenuItem onAction="#onPackageDesktopApp" text="Package / Install Desktop App..." />
+                    <SeparatorMenuItem />
+                    <MenuItem onAction="#cleanDesktopRunFiles" text="Clean Desktop Files" />
+                </Menu>
+
+                <!-- ============= TOOLS ============= -->
+                <Menu text="Tools">
+                    <MenuItem accelerator="$shortcut+shift+F" onAction="#onFormatDocument" text="Format Document" />
+                    <SeparatorMenuItem />
+                    <MenuItem accelerator="$shortcut+shift+K" onAction="#onOpenCommandPalette" text="Command Palette..." />
+                    <MenuItem accelerator="$shortcut+alt+D" onAction="#onCompareFiles" text="Compare Files..." />
+                    <SeparatorMenuItem />
+                    <Menu text="Insert Snippet">
+                        <MenuItem onAction="#onSnippetHtmlBoiler" text="HTML Boilerplate" />
+                        <MenuItem onAction="#onSnippetCssReset" text="CSS Reset" />
+                        <MenuItem onAction="#onSnippetConsoleLog" text="JS Console Log" />
+                        <MenuItem onAction="#onSnippetFunction" text="JS Function" />
+                        <MenuItem onAction="#onSnippetReactComp" text="React Component" />
+                        <MenuItem onAction="#onSnippetForLoop" text="for Loop" />
+                        <MenuItem onAction="#onSnippetIfStmt" text="if Statement" />
+                    </Menu>
+                    <SeparatorMenuItem />
+                    <MenuItem onAction="#onMinifyCode" text="Minify Code" />
+                    <MenuItem onAction="#onFormatDocument" text="Beautify Code" />
+                    <SeparatorMenuItem />
+                    <MenuItem onAction="#onSnippetsManager" text="Snippets Manager..." />
+                    <SeparatorMenuItem />
+                    <MenuItem accelerator="$shortcut+alt+C" onAction="#onColorPicker" text="Color Picker..." />
+                    <SeparatorMenuItem />
+                    <MenuItem accelerator="$shortcut+alt+U" onAction="#onApiTester" text="API Tester..." />
+                    <MenuItem accelerator="$shortcut+alt+L" onAction="#onSqlRunner" text="SQL Runner..." />
+                    <MenuItem onAction="#onErDiagram" text="ER Diagram Generator..." />
+                    <SeparatorMenuItem />
+                    <MenuItem accelerator="$shortcut+shift+E" onAction="#onErDesigner" text="ER Database Designer..." />
+                    <MenuItem onAction="#onProjectMap" text="Project Map..." />
+                    <MenuItem onAction="#onDepVisualizer" text="Dependency Visualizer..." />
+                    <SeparatorMenuItem />
+                    <MenuItem accelerator="$shortcut+alt+R" onAction="#onLiveShare" text="Live Share..." />
+                    <MenuItem accelerator="$shortcut+alt+F" onAction="#onFigmaToHtml" text="Figma → HTML..." />
+                    <MenuItem accelerator="$shortcut+alt+V" onAction="#onVoiceToCode" text="Voice To Code..." />
+                    <MenuItem accelerator="$shortcut+alt+W" onAction="#onExportFlutter" text="Export to Flutter..." />
+                    <MenuItem onAction="#onProjectReplay" text="Project Replay..." />
+                    <SeparatorMenuItem />
+                    <MenuItem onAction="#onShowDatabaseViewer" text="Database Viewer..." />
+                    <SeparatorMenuItem />
+                    <MenuItem onAction="#onJsonValidator" text="JSON Validator..." />
+                    <MenuItem onAction="#onRegexTester" text="Regex Tester..." />
+                    <MenuItem onAction="#onCodeMetrics" text="Code Metrics..." />
+                    <MenuItem onAction="#onImportOptimizer" text="Import Optimizer..." />
+                    <SeparatorMenuItem />
+                    <Menu text="AI Tools">
+                        <CheckMenuItem fx:id="aiLangEnglishItem" onAction="#onAiLangChange" selected="true" text="English" />
+                        <CheckMenuItem fx:id="aiLangArabicItem" onAction="#onAiLangChange" text="Arabic" />
+                        <SeparatorMenuItem />
+                        <MenuItem onAction="#onAiExplainCode" text="Explain Code..." />
+                        <MenuItem onAction="#onAiFixCode" text="Fix Code..." />
+                        <MenuItem onAction="#onAiGenerateCode" text="Generate Code..." />
+                        <MenuItem onAction="#onAiRefactorCode" text="Refactor Code..." />
+                        <MenuItem onAction="#onAiGenerateUnitTests" text="Generate Unit Tests..." />
+                        <MenuItem onAction="#onAiGenerateDocumentation" text="Generate Documentation..." />
+                        <SeparatorMenuItem />
+                        <MenuItem onAction="#onAiExplainError" text="Explain Error..." />
+                        <MenuItem onAction="#onAiCodeReview" text="AI Code Review..." />
+                        <MenuItem onAction="#onAiRenameSymbol" text="AI Rename Symbol..." />
+                        <SeparatorMenuItem />
+                        <MenuItem onAction="#onAiCommitMessage" text="AI Commit Message..." />
+                    </Menu>
+                    <SeparatorMenuItem />
+                    <Menu text="Encoders &amp; Generators">
+                        <MenuItem onAction="#onBase64Encoder" text="Base64 Encoder..." />
+                        <MenuItem onAction="#onBase64Decoder" text="Base64 Decoder..." />
+                        <MenuItem onAction="#onUrlEncoder" text="URL Encoder..." />
+                        <MenuItem onAction="#onUrlDecoder" text="URL Decoder..." />
+                        <SeparatorMenuItem />
+                        <MenuItem onAction="#onHashGenerator" text="Hash Generator (MD5/SHA)..." />
+                        <MenuItem onAction="#onUuidGenerator" text="UUID Generator..." />
+                        <MenuItem onAction="#onPasswordGenerator" text="Password Generator..." />
+                        <SeparatorMenuItem />
+                        <MenuItem onAction="#onLoremIpsumGenerator" text="Lorem Ipsum Generator..." />
+                        <MenuItem onAction="#onTimestampConverter" text="Timestamp Converter..." />
+                        <MenuItem onAction="#onJwtDecoder" text="JWT Decoder..." />
+                        <SeparatorMenuItem />
+                        <MenuItem onAction="#onColorPaletteGenerator" text="Color Palette Generator..." />
+                    </Menu>
+                    <Menu text="Code Formatters">
+                        <MenuItem onAction="#onFormatXml" text="XML Formatter..." />
+                        <MenuItem onAction="#onFormatCss" text="CSS Formatter..." />
+                        <MenuItem onAction="#onFormatSql" text="SQL Formatter..." />
+                        <MenuItem onAction="#onFormatYaml" text="YAML Formatter..." />
+                    </Menu>
+                    <Menu text="Code Analysis">
+                        <MenuItem onAction="#onDuplicateCodeFinder" text="Duplicate Code Finder..." />
+                        <MenuItem onAction="#onDeadCodeFinder" text="Dead Code Finder..." />
+                        <SeparatorMenuItem />
+                        <MenuItem onAction="#onFileSizeAnalyzer" text="File Size Analyzer..." />
+                        <MenuItem onAction="#onProjectSizeAnalyzer" text="Project Size Analyzer..." />
+                        <MenuItem onAction="#onLargeFileViewer" text="Large File Viewer..." />
+                        <SeparatorMenuItem />
+                        <MenuItem onAction="#onFolderCompare" text="Folder Compare..." />
+                        <MenuItem onAction="#onDuplicateFileFinder" text="Duplicate File Finder..." />
+                    </Menu>
+                    <SeparatorMenuItem />
+                    <MenuItem accelerator="$shortcut+COMMA" onAction="#onOpenSettings" text="Settings..." />
+                </Menu>
+
+                <!-- ============= PLUGINS ============= -->
+                <Menu text="Plugins">
+                    <MenuItem onAction="#onNewPlugin" text="New Plugin..." />
+                    <SeparatorMenuItem />
+                    <MenuItem onAction="#onPluginManager" text="Plugin Manager..." />
+                    <SeparatorMenuItem />
+                    <MenuItem onAction="#onExtensionsMarketplace" text="Extensions Marketplace..." />
+                    <SeparatorMenuItem />
+                    <MenuItem onAction="#onInstallPlugin" text="Install from File..." />
+                    <MenuItem onAction="#onBrowsePlugins" text="Browse Plugins..." />
+                    <SeparatorMenuItem />
+                    <Menu text="Language Support">
+                        <MenuItem onAction="#onLanguageManager" text="Language Manager..." />
+                        <SeparatorMenuItem />
+                        <MenuItem onAction="#onInstallPython" text="Python" />
+                        <MenuItem onAction="#onInstallJava" text="Java" />
+                        <MenuItem onAction="#onInstallNodeJs" text="Node.js" />
+                        <MenuItem onAction="#onInstallTypeScript" text="TypeScript" />
+                        <MenuItem onAction="#onInstallCpp" text="C / C++" />
+                        <MenuItem onAction="#onInstallGo" text="Go" />
+                        <MenuItem onAction="#onInstallRust" text="Rust" />
+                        <MenuItem onAction="#onInstallDart" text="Dart / Flutter" />
+                        <MenuItem onAction="#onInstallPhp" text="PHP" />
+                        <MenuItem onAction="#onInstallRuby" text="Ruby" />
+                        <MenuItem onAction="#onInstallKotlin" text="Kotlin" />
+                        <MenuItem onAction="#onInstallSwift" text="Swift" />
+                        <MenuItem onAction="#onInstallSql" text="SQL" />
+                    </Menu>
+                </Menu>
+
+                <!-- ============= SOURCE CONTROL ============= -->
+                <Menu text="Source Control">
+                    <MenuItem accelerator="$shortcut+alt+G" onAction="#onGitGraph" text="Git Graph..." />
+                    <MenuItem accelerator="$shortcut+shift+G" onAction="#onToggleGit" text="Git Status" />
+                    <SeparatorMenuItem />
+                    <MenuItem onAction="#onGitCommit" text="Git Commit..." />
+                    <MenuItem onAction="#onGitPush" text="Git Push" />
+                    <MenuItem onAction="#onGitPull" text="Git Pull" />
+                    <SeparatorMenuItem />
+                    <MenuItem onAction="#onGitStash" text="Git Stash..." />
+                    <MenuItem onAction="#onGitFetch" text="Git Fetch" />
+                    <MenuItem onAction="#onGitReset" text="Git Reset..." />
+                    <SeparatorMenuItem />
+                    <MenuItem onAction="#onGitInit" text="Init Repository" />
+                </Menu>
+
+                <!-- ============= WINDOW ============= -->
+                <Menu text="Window">
+                    <MenuItem onAction="#onMinimize" text="Minimize" />
+                    <MenuItem onAction="#onExit" text="Close Window" />
+                    <SeparatorMenuItem />
+                    <MenuItem onAction="#onCloseProject" text="Welcome Screen" />
+                </Menu>
+
+                <!-- ============= HELP ============= -->
+                <Menu text="Help">
+                    <MenuItem accelerator="$shortcut+SLASH" onAction="#onKeyboardShortcuts" text="Keyboard Shortcuts" />
+                    <MenuItem accelerator="F1" onAction="#onDocumentation" text="Documentation" />
+                    <SeparatorMenuItem />
+                    <MenuItem onAction="#onCheckUpdates" text="Check for Updates..." />
+                    <MenuItem onAction="#onReportIssue" text="Report Issue..." />
+                    <SeparatorMenuItem />
+                    <MenuItem onAction="#onAbout" text="About Eagle" />
+                </Menu>
+
+            </MenuBar>
+
+            <!-- Main toolbar -->
+            <HBox alignment="CENTER_LEFT" spacing="6" styleClass="toolbar-container">
+                <padding><Insets bottom="6" left="14" right="14" top="6" /></padding>
+                <Button onAction="#onSave" styleClass="btn-icon toolbar-save" text="Save" />
+                <Separator orientation="VERTICAL" />
+                <Button onAction="#onUndo" styleClass="btn-icon toolbar-undo" text="Undo" />
+            <Button layoutX="84.0" layoutY="15.0" onAction="#onRedo" styleClass="btn-icon toolbar-undo" text="Redo" />
+                <Button onAction="#onFindReplace" styleClass="btn-icon toolbar-find" text="Find" />
+                <Separator orientation="VERTICAL" />
+                <Button fx:id="previewToggleBtn" onAction="#onTogglePreview" styleClass="btn-icon toolbar-preview" text="Live Preview" />
+                <Button fx:id="aiBtn" onAction="#onToggleAiAssistant" styleClass="btn-icon toolbar-ai" text="AI" />
+                <Button fx:id="terminalBtn" onAction="#onToggleTerminal" styleClass="btn-icon toolbar-terminal" text="Terminal" />
+                <Button fx:id="gitBtn" onAction="#onToggleGit" styleClass="btn-icon toolbar-git" text="Git" />
+                <Button fx:id="debugBtn" onAction="#onToggleDebugger" styleClass="btn-icon toolbar-debug" text="Debug" />
+                <Separator orientation="VERTICAL" />
+                <Button onAction="#onQuickBuildApk" styleClass="btn-icon toolbar-quick-apk" text="Quick APK" />
+                <Button onAction="#onRunProject" styleClass="btn-icon toolbar-run" text="Run" />
+                <Button onAction="#onOpenSettings" styleClass="btn-icon toolbar-settings" text="Settings" />
+                <HBox HBox.hgrow="ALWAYS" />
+                <Label fx:id="projectNameLabel" style="-fx-font-weight: bold;" text="" />
+                <Separator orientation="VERTICAL" />
+                <StackPane fx:id="themeTogglePane" onMouseClicked="#onToggleTheme" styleClass="theme-toggle">
+                    <Circle fx:id="toggleKnob" radius="10" styleClass="theme-toggle-knob" translateX="-12" />
+                </StackPane>
+            </HBox>
+            <!-- Secondary toolbar (project actions) -->
+            <HBox alignment="CENTER_LEFT" spacing="4" styleClass="toolbar-container-secondary">
+                <padding><Insets bottom="2" left="14" right="14" top="2" /></padding>
+                <Label style="-fx-font-size: 10px; -fx-text-fill: -text-muted;" text="Projects Root:" />
+                <Label fx:id="projectsRootLabel" style="-fx-font-size: 10px; -fx-text-fill: -accent;" text="" />
+                <Button onAction="#onBrowseProjectsRoot" styleClass="btn-tiny toolbar-browse" text="Browse" />
+                <Button onAction="#onNewProjectFromEditor" styleClass="btn-tiny toolbar-new-proj" text="New Project" />
+                <HBox HBox.hgrow="ALWAYS" />
+                <Label fx:id="statusLabelSecondary" style="-fx-font-size: 10px; -fx-text-fill: -text-muted;" text="" />
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <SplitPane fx:id="mainSplit" dividerPositions="0.25, 0.75">
+            <items>
+                <!-- Left sidebar: Unified project explorer -->
+                <VBox minWidth="240" prefWidth="280" styleClass="sidebar">
+                    <HBox alignment="CENTER_LEFT" spacing="4" style="-fx-padding: 10 12 2 12;">
+                        <Label style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: -text-muted;" text="EXPLORER" HBox.hgrow="ALWAYS" />
+                        <Label fx:id="projectsCountLabel" style="-fx-font-size: 10px; -fx-text-fill: -text-muted;" text="" />
+                        <Button fx:id="refreshSideBtn" onAction="#onRefreshProject" styleClass="btn-tiny toolbar-refresh" text="Refresh" />
+                        <Button fx:id="newFileSideBtn" onAction="#onNewFile" styleClass="btn-tiny toolbar-new-file" text="New File" />
+                        <Button fx:id="newFolderSideBtn" onAction="#onNewFolder" styleClass="btn-tiny toolbar-new-folder" text="New Folder" />
+                    </HBox>
+                    <TextField fx:id="treeFilter" maxWidth="Infinity" promptText="Filter files..." styleClass="tree-filter">
+                        <padding><Insets bottom="4" left="8" right="8" top="4" /></padding>
+                    </TextField>
+                    <TreeView fx:id="fileTree" VBox.vgrow="ALWAYS" />
+                </VBox>
+
+                      <!-- Editor tabs -->
+                <VBox fx:id="editorContainer" minWidth="0">
+                    <com.eagle.editor.BreadcrumbBar fx:id="breadcrumbBar" />
+                    <TabPane fx:id="editorTabs" tabClosingPolicy="ALL_TABS" VBox.vgrow="ALWAYS" />
+                </VBox>
+
+                <!-- Live preview -->
+                <VBox fx:id="previewContainer" minWidth="0" styleClass="preview-container">
+                    <HBox alignment="CENTER_LEFT" style="-fx-padding: 4 10; -fx-background-color: -bg-secondary;">
+                        <Label style="-fx-font-weight: bold; -fx-font-size: 10px; -fx-text-fill: -text-muted;" text="Preview" />
+                        <HBox HBox.hgrow="ALWAYS" />
+                        <Button onAction="#onTogglePreview" style="-fx-font-size: 15;" styleClass="btn-tiny sidebar-close" text="x" />
+                    </HBox>
+                    <WebView fx:id="webPreview" VBox.vgrow="ALWAYS" />
+                </VBox>
+            </items>
+        </SplitPane>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER_LEFT" spacing="14" styleClass="status-bar">
+            <Label fx:id="statusLabel" text="Ready" />
+            <ProgressBar fx:id="generationProgress" maxWidth="120" prefWidth="120" visible="false" />
+            <Button fx:id="viewLogBtn" onAction="#onViewGenerationLog" style="-fx-font-size: 10; -fx-padding: 1 6;" styleClass="btn-tiny" text="Log" visible="false" />
+            <HBox HBox.hgrow="ALWAYS" />
+            <Label fx:id="projectsCountLabel2" style="-fx-font-size: 10px; -fx-text-fill: -text-muted;" text="" />
+            <Label fx:id="cursorPosLabel" text="Ln 1, Col 1" />
+            <Label fx:id="fileTypeLabel" text="" />
+        </HBox>
+    </bottom>
+
+</BorderPane>

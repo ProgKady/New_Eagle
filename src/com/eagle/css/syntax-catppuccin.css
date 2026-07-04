@@ -1,0 +1,18 @@
+/* Catppuccin syntax highlighting */
+.syn-comment { -fx-fill: #6c7086; -fx-font-style: italic; }
+.syn-string { -fx-fill: #a6e3a1; }
+.syn-number { -fx-fill: #fab387; }
+.syn-keyword { -fx-fill: #cba6f7; -fx-font-weight: bold; }
+.syn-functioncall { -fx-fill: #89b4fa; }
+.syn-brace { -fx-fill: #cdd6f4; }
+.syn-tag { -fx-fill: #f38ba8; }
+.syn-attr { -fx-fill: #fab387; }
+.syn-attrvalue { -fx-fill: #a6e3a1; }
+.syn-tagend { -fx-fill: #f38ba8; }
+.syn-selector { -fx-fill: #cba6f7; }
+.syn-property { -fx-fill: #89dceb; }
+.syn-color { -fx-fill: #fab387; }
+.syn-key { -fx-fill: #f38ba8; }
+.syn-bool { -fx-fill: #fab387; }
+.syn-annotation { -fx-fill: #f9e2af; }
+.syn-default { -fx-fill: #cdd6f4; }

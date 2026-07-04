@@ -1,0 +1,18 @@
+﻿/* Shades of Purple syntax highlighting */
+.syn-comment { -fx-fill: #604ad8; -fx-font-style: italic; }
+.syn-string { -fx-fill: #a5ff90; }
+.syn-number { -fx-fill: #ff9d00; }
+.syn-keyword { -fx-fill: #ff9d00; -fx-font-weight: bold; }
+.syn-functioncall { -fx-fill: #fad000; }
+.syn-brace { -fx-fill: #c4c4c4; }
+.syn-tag { -fx-fill: #ff628c; }
+.syn-attr { -fx-fill: #ff9d00; }
+.syn-attrvalue { -fx-fill: #a5ff90; }
+.syn-tagend { -fx-fill: #ff628c; }
+.syn-selector { -fx-fill: #fad000; }
+.syn-property { -fx-fill: #ff9d00; }
+.syn-color { -fx-fill: #fb94ff; }
+.syn-key { -fx-fill: #fad000; }
+.syn-bool { -fx-fill: #fb94ff; }
+.syn-annotation { -fx-fill: #ff628c; }
+.syn-default { -fx-fill: #c4c4c4; }

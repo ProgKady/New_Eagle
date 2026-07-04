@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="520" prefWidth="720" styleClass="dialog-pane" stylesheets="@../css/base.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.eagle.controller.PluginManagerController">
+    <top>
+        <VBox spacing="12">
+            <padding><Insets bottom="8" left="16" right="16" top="16"/></padding>
+            <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Plugin Manager"/>
+            <Label style="-fx-font-size: 11px; -fx-text-fill: -text-muted;" text="Manage installed plugins. Enable, disable, or install new plugins from JAR files." wrapText="true"/>
+            <Separator/>
+        </VBox>
+    </top>
+
+    <center>
+        <SplitPane dividerPositions="0.45">
+            <VBox spacing="8">
+                <padding><Insets bottom="8" left="16" right="8" top="8"/></padding>
+                <Label style="-fx-font-size: 12px; -fx-font-weight: bold;" text="Installed Plugins"/>
+                <ListView fx:id="pluginList" VBox.vgrow="ALWAYS"/>
+            </VBox>
+
+            <VBox spacing="8">
+                <padding><Insets bottom="8" left="8" right="16" top="8"/></padding>
+                <Label style="-fx-font-size: 12px; -fx-font-weight: bold;" text="Plugin Details"/>
+                <VBox fx:id="detailPane" spacing="6" VBox.vgrow="ALWAYS">
+                    <Label text="Select a plugin to view details" style="-fx-text-fill: -text-muted; -fx-font-style: italic;"/>
+                </VBox>
+            </VBox>
+        </SplitPane>
+    </center>
+
+    <bottom>
+        <VBox spacing="8">
+            <padding><Insets bottom="16" left="16" right="16" top="8"/></padding>
+            <Separator/>
+            <HBox alignment="CENTER_LEFT" spacing="8">
+                <Button fx:id="enableBtn" text="Enable" styleClass="btn-primary" onAction="#onEnable"/>
+                <Button fx:id="disableBtn" text="Disable" styleClass="btn-secondary" onAction="#onDisable"/>
+                <Separator orientation="VERTICAL"/>
+                <Button fx:id="editBtn" text="Edit Source" styleClass="btn-secondary" onAction="#onEdit"/>
+                <Button fx:id="deleteBtn" text="Delete" styleClass="btn-danger" onAction="#onDelete"/>
+                <Separator orientation="VERTICAL"/>
+                <Button text="Install from File..." styleClass="btn-secondary" onAction="#onInstall"/>
+                <Button text="Open Plugins Folder" styleClass="btn-icon" onAction="#onOpenFolder"/>
+                <HBox HBox.hgrow="ALWAYS"/>
+                <Button text="Close" onAction="#onClose"/>
+            </HBox>
+        </VBox>
+    </bottom>
+</BorderPane>

@@ -1,0 +1,105 @@
+/* Midnight Violet — a richer, more saturated dark theme variant.
+   Inherits all structural rules from base.css; only redefines the color
+   palette (.root variables) and the syntax-highlighting token colors. */
+
+.root {
+    -fx-base: #161320;
+    -fx-background: #120f1c;
+    -fx-control-inner-background: #1c1830;
+    -fx-text-base-color: #f0eafc;
+
+    -bg-primary: #120f1c;
+    -bg-secondary: #1c1830;
+    -bg-tertiary: #271f42;
+    -bg-elevated: #221c3a;
+    -bg-hover: #322658;
+    -bg-active: #3c2e68;
+
+    -success: #3ddc97;
+    -warning: #ffd166;
+    -danger: #ff5d8f;
+
+    -shadow-sm: dropshadow(gaussian, rgba(0,0,0,0.25), 4, 0, 0, 1);
+    -shadow-md: dropshadow(gaussian, rgba(0,0,0,0.3), 8, 0, 0, 2);
+    -shadow-lg: dropshadow(gaussian, rgba(0,0,0,0.35), 16, 0, 0, 4);
+
+    -fx-background-color: -bg-primary;
+}
+
+.root, .label {
+    -fx-text-fill: -text-primary;
+}
+
+/* ----- Syntax highlighting tokens (Midnight Violet palette) ----- */
+.syn-comment { -fx-fill: #6f6390; -fx-font-style: italic; }
+.syn-string { -fx-fill: #3ddc97; }
+.syn-number { -fx-fill: #ffb86b; }
+.syn-keyword { -fx-fill: #ff5d8f; -fx-font-weight: bold; }
+.syn-functioncall { -fx-fill: #7ec8ff; }
+.syn-brace { -fx-fill: #cdbfe8; }
+.syn-tag { -fx-fill: #ff8fb3; }
+.syn-attr { -fx-fill: #ffb86b; }
+.syn-attrvalue { -fx-fill: #3ddc97; }
+.syn-tagend { -fx-fill: #ff8fb3; }
+.syn-selector { -fx-fill: #ffd166; }
+.syn-property { -fx-fill: #7ec8ff; }
+.syn-color { -fx-fill: #ffb86b; }
+.syn-key { -fx-fill: #ff8fb3; }
+.syn-bool { -fx-fill: #ffb86b; }
+.syn-annotation { -fx-fill: #ffd166; }
+.syn-default { -fx-fill: -text-primary; }
+
+/* RichTextFX CodeArea internals */
+.code-area .styled-text-area {
+    -fx-background-color: -bg-primary;
+}
+.code-area .paragraph-box {
+    -fx-background-color: transparent;
+}
+.code-area .lineno {
+    -fx-background-color: -bg-secondary;
+    -fx-text-fill: -text-muted;
+    -fx-padding: 0 8 0 8;
+}
+
+/* Autocomplete popup */
+.completion-list {
+    -fx-background-color: -bg-elevated;
+    -fx-border-color: -accent;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow(gaussian, rgba(176,108,255,0.35), 16, 0, 0, 4);
+}
+.completion-list .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: -text-primary;
+    -fx-padding: 6 12;
+    -fx-font-family: "Consolas", monospace;
+    -fx-font-size: 12.5px;
+}
+.completion-list .list-cell:filled:selected, .completion-list .list-cell:filled:hover {
+    -fx-background-color: -accent-soft;
+}
+
+.breakpoint-dot:hover {
+    -fx-background-color: #ff5d8f55;
+    -fx-background-radius: 5;
+}
+
+.bracket-match {
+    -fx-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-underline: true;
+}
+
+.welcome-logo-text {
+    -fx-text-fill: -accent;
+}
+
+.fold-arrow {
+    -fx-text-fill: -text-muted;
+}
+.fold-arrow:hover {
+    -fx-text-fill: -accent;
+}

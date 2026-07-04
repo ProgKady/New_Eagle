@@ -1,0 +1,18 @@
+/* Atom One Light syntax highlighting */
+.syn-comment { -fx-fill: #a0b0c0; -fx-font-style: italic; }
+.syn-string { -fx-fill: #50a14f; }
+.syn-number { -fx-fill: #986801; }
+.syn-keyword { -fx-fill: #a626a4; -fx-font-weight: bold; }
+.syn-functioncall { -fx-fill: #4078f2; }
+.syn-brace { -fx-fill: #383a42; }
+.syn-tag { -fx-fill: #e45649; }
+.syn-attr { -fx-fill: #986801; }
+.syn-attrvalue { -fx-fill: #50a14f; }
+.syn-tagend { -fx-fill: #e45649; }
+.syn-selector { -fx-fill: #e45649; }
+.syn-property { -fx-fill: #0184bc; }
+.syn-color { -fx-fill: #986801; }
+.syn-key { -fx-fill: #e45649; }
+.syn-bool { -fx-fill: #986801; }
+.syn-annotation { -fx-fill: #986801; }
+.syn-default { -fx-fill: #383a42; }

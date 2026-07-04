@@ -1,0 +1,18 @@
+/* Ayu Dark syntax highlighting */
+.syn-comment { -fx-fill: #5c6166; -fx-font-style: italic; }
+.syn-string { -fx-fill: #aad94c; }
+.syn-number { -fx-fill: #e6b450; }
+.syn-keyword { -fx-fill: #ff7733; -fx-font-weight: bold; }
+.syn-functioncall { -fx-fill: #ffb454; }
+.syn-brace { -fx-fill: #bfbdb2; }
+.syn-tag { -fx-fill: #39bae6; }
+.syn-attr { -fx-fill: #e6b450; }
+.syn-attrvalue { -fx-fill: #aad94c; }
+.syn-tagend { -fx-fill: #39bae6; }
+.syn-selector { -fx-fill: #ff7733; }
+.syn-property { -fx-fill: #59c2ff; }
+.syn-color { -fx-fill: #e6b450; }
+.syn-key { -fx-fill: #39bae6; }
+.syn-bool { -fx-fill: #e6b450; }
+.syn-annotation { -fx-fill: #e6b450; }
+.syn-default { -fx-fill: #bfbdb2; }

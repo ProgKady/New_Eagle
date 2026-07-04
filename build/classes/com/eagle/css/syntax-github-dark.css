@@ -1,0 +1,18 @@
+/* GitHub Dark syntax highlighting */
+.syn-comment { -fx-fill: #8b949e; -fx-font-style: italic; }
+.syn-string { -fx-fill: #a5d6ff; }
+.syn-number { -fx-fill: #79c0ff; }
+.syn-keyword { -fx-fill: #ff7b72; -fx-font-weight: bold; }
+.syn-functioncall { -fx-fill: #d2a8ff; }
+.syn-brace { -fx-fill: #e6edf3; }
+.syn-tag { -fx-fill: #7ee787; }
+.syn-attr { -fx-fill: #79c0ff; }
+.syn-attrvalue { -fx-fill: #a5d6ff; }
+.syn-tagend { -fx-fill: #7ee787; }
+.syn-selector { -fx-fill: #d2a8ff; }
+.syn-property { -fx-fill: #79c0ff; }
+.syn-color { -fx-fill: #79c0ff; }
+.syn-key { -fx-fill: #ff7b72; }
+.syn-bool { -fx-fill: #79c0ff; }
+.syn-annotation { -fx-fill: #d2a8ff; }
+.syn-default { -fx-fill: #e6edf3; }

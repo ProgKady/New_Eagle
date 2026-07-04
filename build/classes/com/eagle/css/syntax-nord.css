@@ -1,0 +1,18 @@
+/* Nord syntax highlighting */
+.syn-comment { -fx-fill: #4c566a; -fx-font-style: italic; }
+.syn-string { -fx-fill: #a3be8c; }
+.syn-number { -fx-fill: #b48ead; }
+.syn-keyword { -fx-fill: #81a1c1; -fx-font-weight: bold; }
+.syn-functioncall { -fx-fill: #88c0d0; }
+.syn-brace { -fx-fill: #d8dee9; }
+.syn-tag { -fx-fill: #81a1c1; }
+.syn-attr { -fx-fill: #8fbcbb; }
+.syn-attrvalue { -fx-fill: #a3be8c; }
+.syn-tagend { -fx-fill: #81a1c1; }
+.syn-selector { -fx-fill: #a3be8c; }
+.syn-property { -fx-fill: #88c0d0; }
+.syn-color { -fx-fill: #b48ead; }
+.syn-key { -fx-fill: #81a1c1; }
+.syn-bool { -fx-fill: #b48ead; }
+.syn-annotation { -fx-fill: #ebcb8b; }
+.syn-default { -fx-fill: #d8dee9; }

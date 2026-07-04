@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="620" prefWidth="780" styleClass="dialog-pane" stylesheets="@../css/base.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.eagle.controller.PluginCreatorController">
+
+    <top>
+        <HBox spacing="12" styleClass="wizard-header">
+            <padding><Insets bottom="16" left="20" right="20" top="16" /></padding>
+            <Label style="-fx-font-size: 22px; -fx-font-weight: bold;" text="+" />
+            <VBox>
+                <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Plugin Creator Wizard" />
+                <Label style="-fx-font-size: 11px; -fx-text-fill: -text-muted; -fx-opacity: 0.7;" text="Create a new plugin in 5 simple steps" />
+            </VBox>
+        </HBox>
+    </top>
+
+    <center>
+        <HBox spacing="0">
+            <!-- Step Indicator Sidebar -->
+            <VBox prefWidth="150" spacing="6" styleClass="step-sidebar">
+                <padding><Insets bottom="24" left="16" right="12" top="24" /></padding>
+                <Region prefHeight="6" />
+                <HBox alignment="CENTER_LEFT" spacing="8">
+                    <Label fx:id="step1Num" alignment="CENTER" prefHeight="26" prefWidth="26" styleClass="step-circle, step-active" text="1" />
+                    <Label fx:id="step1Label" styleClass="step-label, step-active" text="Basic Info" />
+                </HBox>
+                <HBox alignment="CENTER_LEFT" spacing="8">
+                    <Label fx:id="step2Num" alignment="CENTER" prefHeight="26" prefWidth="26" styleClass="step-circle, step-pending" text="2" />
+                    <Label fx:id="step2Label" styleClass="step-label, step-pending" text="Capabilities" />
+                </HBox>
+                <HBox alignment="CENTER_LEFT" spacing="8">
+                    <Label fx:id="step3Num" alignment="CENTER" prefHeight="26" prefWidth="26" styleClass="step-circle, step-pending" text="3" />
+                    <Label fx:id="step3Label" styleClass="step-label, step-pending" text="FXML &amp; Resources" />
+                </HBox>
+                <HBox alignment="CENTER_LEFT" spacing="8">
+                    <Label fx:id="step4Num" alignment="CENTER" prefHeight="26" prefWidth="26" styleClass="step-circle, step-pending" text="4" />
+                    <Label fx:id="step4Label" styleClass="step-label, step-pending" text="Review Code" />
+                </HBox>
+                <HBox alignment="CENTER_LEFT" spacing="8">
+                    <Label fx:id="step5Num" alignment="CENTER" prefHeight="26" prefWidth="26" styleClass="step-circle, step-pending" text="5" />
+                    <Label fx:id="step5Label" styleClass="step-label, step-pending" text="Build &amp; Deploy" />
+                </HBox>
+            </VBox>
+
+            <Separator orientation="VERTICAL" />
+
+            <!-- Content Area -->
+            <VBox spacing="12" HBox.hgrow="ALWAYS">
+                <padding><Insets bottom="16" left="24" right="24" top="20" /></padding>
+                <Label fx:id="stepTitle" styleClass="wizard-step-title" />
+                <StackPane VBox.vgrow="ALWAYS">
+                    <children>
+                        <!-- ===== STEP 1 ===== -->
+                        <VBox fx:id="step1Content" spacing="10">
+                            <Label style="-fx-font-size: 13px; -fx-text-fill: -text-muted;" text="Tell us about your plugin" />
+                            <GridPane hgap="10" vgap="8">
+                                <columnConstraints>
+                                    <ColumnConstraints prefWidth="100" />
+                                    <ColumnConstraints hgrow="ALWAYS" prefWidth="280" />
+                                </columnConstraints>
+                                <Label text="Plugin Name *" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                <TextField fx:id="pluginNameField" promptText="e.g. 3D Viewer" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                <Label text="Plugin ID" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                <TextField fx:id="pluginIdField" promptText="Auto-generated from name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                <Label text="Version" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                                <TextField fx:id="versionField" text="1.0.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                <Label text="Author *" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                                <TextField fx:id="authorField" promptText="Your name" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                <Label text="Description" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                                <TextArea fx:id="descArea" prefRowCount="3" promptText="What does your plugin do?" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <rowConstraints>
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                        </rowConstraints>
+                            </GridPane>
+                        </VBox>
+
+                        <!-- ===== STEP 2 ===== -->
+                        <VBox fx:id="step2Content" spacing="10">
+                            <Label style="-fx-font-size: 13px; -fx-text-fill: -text-muted;" text="Choose what your plugin can do" />
+                            <TitledPane expanded="true" styleClass="wizard-feature" text="FXML User Interface">
+                                <content>
+                                    <VBox spacing="6">
+                                        <padding><Insets bottom="6" top="6" /></padding>
+                                        <CheckBox fx:id="chkFxml" text="Use FXML file for the plugin UI" />
+                                        <Label style="-fx-font-size: 11px; -fx-text-fill: -text-muted; -fx-opacity: 0.7;" text="Select FXML files and their Java Controller classes in the next step." />
+                                    </VBox>
+                                </content>
+                            </TitledPane>
+                            <TitledPane expanded="true" styleClass="wizard-feature" text="Command Palette">
+                                <content>
+                                    <VBox spacing="6">
+                                        <padding><Insets bottom="6" top="6" /></padding>
+                                        <CheckBox fx:id="chkCommand" selected="true" text="Add to Command Palette (Ctrl+Shift+K)" />
+                                        <GridPane hgap="8" vgap="4">
+                                            <padding><Insets left="20" /></padding>
+                                            <columnConstraints><ColumnConstraints prefWidth="90" /><ColumnConstraints hgrow="ALWAYS" prefWidth="200" /></columnConstraints>
+                                            <Label text="Command Name" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                            <TextField fx:id="cmdNameField" text="Do Something" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                            <Label text="Category" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                            <TextField fx:id="cmdCategoryField" text="Tools" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                 <rowConstraints>
+                                    <RowConstraints />
+                                    <RowConstraints />
+                                 </rowConstraints>
+                                        </GridPane>
+                                    </VBox>
+                                </content>
+                            </TitledPane>
+                            <TitledPane expanded="false" styleClass="wizard-feature" text="Toolbar Button">
+                                <content>
+                                    <VBox spacing="6">
+                                        <padding><Insets bottom="6" top="6" /></padding>
+                                        <CheckBox fx:id="chkToolbar" text="Add button to the main toolbar" />
+                                        <GridPane hgap="8" vgap="4">
+                                            <padding><Insets left="20" /></padding>
+                                            <columnConstraints><ColumnConstraints prefWidth="90" /><ColumnConstraints hgrow="ALWAYS" prefWidth="200" /></columnConstraints>
+                                            <Label text="Button Text" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                            <TextField fx:id="toolBtnTextField" text="MY" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                            <Label text="Tooltip" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                            <TextField fx:id="toolTooltipField" promptText="My Plugin" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                 <rowConstraints>
+                                    <RowConstraints />
+                                    <RowConstraints />
+                                 </rowConstraints>
+                                        </GridPane>
+                                    </VBox>
+                                </content>
+                            </TitledPane>
+                            <TitledPane expanded="false" styleClass="wizard-feature" text="Menu Item">
+                                <content>
+                                    <VBox spacing="6">
+                                        <padding><Insets bottom="6" top="6" /></padding>
+                                        <CheckBox fx:id="chkMenu" text="Add item to a menu" />
+                                        <GridPane hgap="8" vgap="4">
+                                            <padding><Insets left="20" /></padding>
+                                            <columnConstraints><ColumnConstraints prefWidth="90" /><ColumnConstraints hgrow="ALWAYS" prefWidth="200" /></columnConstraints>
+                                            <Label text="Parent Menu" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                            <TextField fx:id="menuParentField" text="Tools" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                            <Label text="Menu Text" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                            <TextField fx:id="menuTextField" promptText="My Plugin..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                 <rowConstraints>
+                                    <RowConstraints />
+                                    <RowConstraints />
+                                 </rowConstraints>
+                                        </GridPane>
+                                    </VBox>
+                                </content>
+                            </TitledPane>
+                            <TitledPane expanded="false" styleClass="wizard-feature" text="New Top-Level Menu">
+                                <content>
+                                    <VBox spacing="6">
+                                        <padding><Insets bottom="6" top="6" /></padding>
+                                        <CheckBox fx:id="chkNewMenu" text="Create a new top-level menu in the menu bar" />
+                                        <GridPane hgap="8" vgap="4">
+                                            <padding><Insets left="20" /></padding>
+                                            <columnConstraints><ColumnConstraints prefWidth="100" /><ColumnConstraints hgrow="ALWAYS" prefWidth="200" /></columnConstraints>
+                                            <Label text="Menu Title" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                            <TextField fx:id="newMenuTitleField" promptText="e.g. My Plugin" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                            <Label text="Insert Position" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                            <TextField fx:id="newMenuPosField" promptText="-1 = end" text="-1" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                 <rowConstraints>
+                                    <RowConstraints />
+                                    <RowConstraints />
+                                 </rowConstraints>
+                                        </GridPane>
+                                    </VBox>
+                                </content>
+                            </TitledPane>
+                            <TitledPane expanded="false" styleClass="wizard-feature" text="New Toolbar Section">
+                                <content>
+                                    <VBox spacing="6">
+                                        <padding><Insets bottom="6" top="6" /></padding>
+                                        <CheckBox fx:id="chkToolbarSection" text="Create a new section in the toolbar" />
+                                        <GridPane hgap="8" vgap="4">
+                                            <padding><Insets left="20" /></padding>
+                                            <columnConstraints><ColumnConstraints prefWidth="100" /><ColumnConstraints hgrow="ALWAYS" prefWidth="200" /></columnConstraints>
+                                            <Label text="Section Name" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                            <TextField fx:id="toolSectionNameField" promptText="e.g. My Tools" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                            <Label text="Button Labels" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                            <TextField fx:id="toolBtnLabelsField" promptText="Comma-separated: Tool1, Tool2" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                 <rowConstraints>
+                                    <RowConstraints />
+                                    <RowConstraints />
+                                 </rowConstraints>
+                                        </GridPane>
+                                    </VBox>
+                                </content>
+                            </TitledPane>
+                            <TitledPane expanded="false" styleClass="wizard-feature" text="Plugin Side Panel">
+                                <content>
+                                    <VBox spacing="6">
+                                        <padding><Insets bottom="6" top="6" /></padding>
+                                        <CheckBox fx:id="chkPanel" text="Add a side panel tab in the IDE" />
+                                        <GridPane hgap="8" vgap="4">
+                                            <padding><Insets left="20" /></padding>
+                                            <columnConstraints><ColumnConstraints prefWidth="100" /><ColumnConstraints hgrow="ALWAYS" prefWidth="200" /></columnConstraints>
+                                            <Label text="Panel Title" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                            <TextField fx:id="panelTitleField" promptText="e.g. My Panel" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                 <rowConstraints>
+                                    <RowConstraints />
+                                 </rowConstraints>
+                                        </GridPane>
+                                    </VBox>
+                                </content>
+                            </TitledPane>
+                            <TitledPane expanded="false" styleClass="wizard-feature" text="APK Tool (Welcome Card)">
+                                <content>
+                                    <VBox spacing="6">
+                                        <padding><Insets bottom="6" top="6" /></padding>
+                                        <CheckBox fx:id="chkApkTool" text="Add a card under APK Build Tools in Welcome screen" />
+                                        <GridPane hgap="8" vgap="4">
+                                            <padding><Insets left="20" /></padding>
+                                            <columnConstraints><ColumnConstraints prefWidth="90" /><ColumnConstraints hgrow="ALWAYS" prefWidth="200" /></columnConstraints>
+                                            <Label text="Card Title" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                            <TextField fx:id="apkToolNameField" promptText="e.g. Video -> APK" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                            <Label text="Description" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                            <TextField fx:id="apkToolDescField" promptText="e.g. Convert video files to APK" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                            <Label text="File Extension" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                                            <TextField fx:id="apkToolExtField" promptText="e.g. *.mp4, *.avi" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                 <rowConstraints>
+                                    <RowConstraints />
+                                    <RowConstraints />
+                                    <RowConstraints />
+                                 </rowConstraints>
+                                        </GridPane>
+                                    </VBox>
+                                </content>
+                            </TitledPane>
+                        </VBox>
+
+                        <!-- ===== STEP 3 ===== -->
+                        <VBox fx:id="step3Content" spacing="8">
+                            <Label style="-fx-font-size: 13px; -fx-text-fill: -text-muted;" text="Select FXML files, Controller classes, and library JARs" />
+                            <ScrollPane VBox.vgrow="ALWAYS" fitToWidth="true">
+                                <content>
+                                    <VBox spacing="10">
+                                        <padding><Insets bottom="6" top="6" /></padding>
+
+                                        <!-- Main FXML -->
+                                        <TitledPane expanded="true" text="Main Window (primary FXML)">
+                                            <content>
+                                                <VBox spacing="6">
+                                                    <padding><Insets bottom="6" top="6" /></padding>
+                                                    <GridPane hgap="6" vgap="4">
+                                                        <columnConstraints><ColumnConstraints prefWidth="80" /><ColumnConstraints hgrow="ALWAYS" /><ColumnConstraints prefWidth="40" /></columnConstraints>
+                                                        <Label text="FXML File:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                                        <TextField fx:id="mainFxmlField" promptText="Path to .fxml file" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                                        <Button text="..." onAction="#onBrowseMainFxml" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                                                        <Label text="Controller:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                                        <TextField fx:id="mainCtrlField" promptText="Path to Controller .java file" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                        <Button text="..." onAction="#onBrowseMainCtrl" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                                        <Label text="Java Package:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                                                        <TextField fx:id="mainPkgField" promptText="e.g. com.myplugin" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                             <rowConstraints>
+                                                <RowConstraints />
+                                                <RowConstraints />
+                                                <RowConstraints />
+                                             </rowConstraints>
+                                                    </GridPane>
+                                                </VBox>
+                                            </content>
+                                        </TitledPane>
+
+                                        <!-- Sub-dialogs -->
+                                        <TitledPane expanded="false" text="Additional Dialogs (sub-windows)">
+                                            <content>
+                                                <VBox spacing="6">
+                                                    <padding><Insets bottom="6" top="6" /></padding>
+                                                    <Button text="+ Add Sub-Dialog" onAction="#onAddSubDialog" style="-fx-cursor: hand;" />
+                                                    <VBox fx:id="subDialogsContainer" spacing="6" />
+                                                </VBox>
+                                            </content>
+                                        </TitledPane>
+
+                                        <!-- Libraries -->
+                                        <TitledPane expanded="false" text="Libraries (JAR files)">
+                                            <content>
+                                                <VBox spacing="6">
+                                                    <padding><Insets bottom="6" top="6" /></padding>
+                                                    <HBox spacing="6">
+                                                        <TextField fx:id="libPathField" promptText="Select a JAR file..." HBox.hgrow="ALWAYS" />
+                                                        <Button text="Browse" onAction="#onBrowseLib" style="-fx-cursor: hand;" />
+                                                        <Button text="+ Add" onAction="#onAddLib" defaultButton="true" style="-fx-cursor: hand;" />
+                                                    </HBox>
+                                                    <Label text="Selected libraries:" />
+                                                    <ListView fx:id="libsListView" prefHeight="100" />
+                                                    <HBox spacing="6">
+                                                        <Button text="Remove Selected" onAction="#onRemoveLib" style="-fx-cursor: hand;" />
+                                                    </HBox>
+                                                </VBox>
+                                            </content>
+                                        </TitledPane>
+                                    </VBox>
+                                </content>
+                            </ScrollPane>
+                        </VBox>
+
+                        <!-- ===== STEP 4 ===== -->
+                        <VBox fx:id="step4Content" spacing="8">
+                            <Label style="-fx-font-size: 13px; -fx-text-fill: -text-muted;" text="Review the generated Java source code" />
+                            <TextArea fx:id="codePreview" styleClass="code-preview" VBox.vgrow="ALWAYS" />
+                            <Label style="-fx-font-size: 11px; -fx-text-fill: -text-muted; -fx-opacity: 0.7;" text="The code above is ready to compile. Click Build &amp; Deploy to continue." />
+                        </VBox>
+
+                        <!-- ===== STEP 5 ===== -->
+                        <VBox fx:id="step5Content" spacing="10">
+                            <Label style="-fx-font-size: 13px; -fx-text-fill: -text-muted;" text="Build and deploy your plugin" />
+                            <GridPane hgap="8" vgap="6">
+                                <columnConstraints>
+                                    <ColumnConstraints prefWidth="120" />
+                                    <ColumnConstraints hgrow="ALWAYS" prefWidth="300" />
+                                    <ColumnConstraints prefWidth="60" />
+                                </columnConstraints>
+                                <Label text="JDK / javac path:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                <TextField fx:id="jdkPathField" promptText="Auto-detected" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                <Button onAction="#onBrowseJdk" prefWidth="30" text="..." GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                        <rowConstraints>
+                           <RowConstraints />
+                        </rowConstraints>
+                            </GridPane>
+                            <Button fx:id="buildBtn" maxWidth="300" onAction="#onBuild" prefHeight="36" styleClass="build-button" text="Build &amp; Deploy Plugin" />
+                            <TextArea fx:id="buildLog" editable="false" prefRowCount="10" styleClass="build-log" VBox.vgrow="ALWAYS" />
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <Hyperlink fx:id="openFolderLink" onAction="#onOpenFolder" text="Open build folder" visible="false" />
+                                <Hyperlink onAction="#onOpenPluginsFolder" text="Open plugins folder" />
+                            </HBox>
+                        </VBox>
+                    </children>
+                </StackPane>
+            </VBox>
+        </HBox>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" spacing="8" styleClass="wizard-footer">
+            <padding><Insets bottom="12" left="20" right="20" top="12" /></padding>
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="backBtn" disable="true" onAction="#onBack" prefWidth="80" text="Back" />
+            <Button fx:id="nextBtn" defaultButton="true" onAction="#onNext" prefWidth="120" text="Next" />
+            <Button fx:id="cancelBtn" cancelButton="true" onAction="#onCancel" prefWidth="80" text="Cancel" />
+        </HBox>
+    </bottom>
+</BorderPane>

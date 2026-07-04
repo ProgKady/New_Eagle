@@ -1,0 +1,105 @@
+/* Sandstone Light — a warmer, softer light theme variant.
+   Inherits all structural rules from base.css; only redefines the color
+   palette (.root variables) and the syntax-highlighting token colors. */
+
+.root {
+    -fx-base: #faf6ef;
+    -fx-background: #f5efe2;
+    -fx-control-inner-background: #ffffff;
+    -fx-text-base-color: #2e2a22;
+
+    -bg-primary: #f5efe2;
+    -bg-secondary: #ffffff;
+    -bg-tertiary: #ece3d0;
+    -bg-elevated: #ffffff;
+    -bg-hover: #e0d6be;
+    -bg-active: #d4c8ad;
+
+    -success: #2f9e44;
+    -warning: #d9730d;
+    -danger: #d6453d;
+
+    -shadow-sm: dropshadow(gaussian, rgba(0,0,0,0.06), 4, 0, 0, 1);
+    -shadow-md: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);
+    -shadow-lg: dropshadow(gaussian, rgba(0,0,0,0.12), 16, 0, 0, 4);
+
+    -fx-background-color: -bg-primary;
+}
+
+.root, .label {
+    -fx-text-fill: -text-primary;
+}
+
+/* ----- Syntax highlighting tokens (Sandstone palette) ----- */
+.syn-comment { -fx-fill: #9b9180; -fx-font-style: italic; }
+.syn-string { -fx-fill: #2f9e44; }
+.syn-number { -fx-fill: #c9762f; }
+.syn-keyword { -fx-fill: #a6448c; -fx-font-weight: bold; }
+.syn-functioncall { -fx-fill: #1c6fb0; }
+.syn-brace { -fx-fill: #6b6354; }
+.syn-tag { -fx-fill: #d6453d; }
+.syn-attr { -fx-fill: #c9762f; }
+.syn-attrvalue { -fx-fill: #2f9e44; }
+.syn-tagend { -fx-fill: #d6453d; }
+.syn-selector { -fx-fill: #b8651f; }
+.syn-property { -fx-fill: #1c6fb0; }
+.syn-color { -fx-fill: #c9762f; }
+.syn-key { -fx-fill: #d6453d; }
+.syn-bool { -fx-fill: #c9762f; }
+.syn-annotation { -fx-fill: #b8651f; }
+.syn-default { -fx-fill: -text-primary; }
+
+/* RichTextFX CodeArea internals */
+.code-area .styled-text-area {
+    -fx-background-color: -bg-primary;
+}
+.code-area .paragraph-box {
+    -fx-background-color: transparent;
+}
+.code-area .lineno {
+    -fx-background-color: -bg-secondary;
+    -fx-text-fill: -text-muted;
+    -fx-padding: 0 8 0 8;
+}
+
+/* Autocomplete popup */
+.completion-list {
+    -fx-background-color: -bg-elevated;
+    -fx-border-color: -accent;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 14, 0, 0, 4);
+}
+.completion-list .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: -text-primary;
+    -fx-padding: 6 12;
+    -fx-font-family: "Consolas", monospace;
+    -fx-font-size: 12.5px;
+}
+.completion-list .list-cell:filled:selected, .completion-list .list-cell:filled:hover {
+    -fx-background-color: -accent-soft;
+}
+
+.breakpoint-dot:hover {
+    -fx-background-color: #d6453d55;
+    -fx-background-radius: 5;
+}
+
+.bracket-match {
+    -fx-fill: #000000;
+    -fx-font-weight: bold;
+    -fx-underline: true;
+}
+
+.welcome-logo-text {
+    -fx-text-fill: -accent;
+}
+
+.fold-arrow {
+    -fx-text-fill: -text-muted;
+}
+.fold-arrow:hover {
+    -fx-text-fill: -accent;
+}

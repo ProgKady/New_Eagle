@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="700" prefWidth="920" styleClass="dialog-pane" stylesheets="@../css/base.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.eagle.controller.EditorSettingsController">
+
+    <top>
+        <VBox styleClass="settings-header">
+            <padding><Insets bottom="0" left="24" right="24" top="20" /></padding>
+            <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Settings" />
+            <Label style="-fx-font-size: 11px; -fx-text-fill: -text-muted; -fx-opacity: 0.7;" text="Customize your editor experience" />
+            <Separator><padding><Insets top="12" /></padding></Separator>
+        </VBox>
+    </top>
+
+    <center>
+        <HBox spacing="0">
+            <!-- Category Sidebar -->
+            <VBox prefWidth="180" styleClass="settings-sidebar">
+                <padding><Insets bottom="16" left="0" right="0" top="16" /></padding>
+                <ListView fx:id="categoryList" styleClass="settings-category-list" VBox.vgrow="ALWAYS" />
+            </VBox>
+
+            <Separator orientation="VERTICAL" />
+
+            <!-- Content -->
+            <StackPane fx:id="contentArea" HBox.hgrow="ALWAYS">
+                <padding><Insets bottom="0" left="24" right="24" top="16" /></padding>
+
+                <!-- ===== EDITOR Tab ===== -->
+                <VBox fx:id="editorPane" spacing="12">
+                    <Label style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Font &amp; Editor" />
+                    <GridPane hgap="12" vgap="8">
+                        <columnConstraints><ColumnConstraints prefWidth="140" /><ColumnConstraints hgrow="ALWAYS" prefWidth="280" /><ColumnConstraints prefWidth="60" /></columnConstraints>
+                        <Label text="Font Family" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <ComboBox fx:id="fontFamilyCombo" prefWidth="250" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                        <Label text="Font Size" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <HBox spacing="8" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <Slider fx:id="fontSizeSlider" max="48" min="8" prefWidth="200" />
+                            <Label fx:id="fontSizeLabel" prefWidth="40" style="-fx-font-weight: bold;" />
+                        </HBox>
+                        <Label text="Line Height" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                        <HBox spacing="8" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                            <Slider fx:id="lineHeightSlider" max="3.0" min="1.0" prefWidth="200" />
+                            <Label fx:id="lineHeightLabel" prefWidth="40" style="-fx-font-weight: bold;" />
+                        </HBox>
+                        <Label text="Tab Size" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                        <Spinner fx:id="tabSizeSpinner" prefWidth="80" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label text="Cursor Style" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                        <ComboBox fx:id="cursorStyleCombo" prefWidth="140" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <rowConstraints>
+                            <RowConstraints /><RowConstraints /><RowConstraints /><RowConstraints /><RowConstraints />
+                        </rowConstraints>
+                    </GridPane>
+
+                    <Separator />
+                    <Label style="-fx-font-size: 13px; -fx-font-weight: bold;" text="Editor Options" />
+                    <GridPane hgap="12" vgap="6">
+                        <columnConstraints><ColumnConstraints prefWidth="220" /><ColumnConstraints hgrow="ALWAYS" /></columnConstraints>
+                        <CheckBox fx:id="wordWrapCheck" text="Word Wrap" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <CheckBox fx:id="autoCloseBracketsCheck" text="Auto-Close Brackets &amp; Quotes" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <CheckBox fx:id="showLineNumbersCheck" text="Show Line Numbers" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                        <CheckBox fx:id="highlightCurrentLineCheck" text="Highlight Current Line" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                        <CheckBox fx:id="highlightMatchingBracketsCheck" text="Highlight Matching Brackets" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                        <CheckBox fx:id="showWhitespaceCheck" text="Show Whitespace Characters" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                        <CheckBox fx:id="showIndentGuideCheck" text="Show Indent Guide" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                        <rowConstraints>
+                            <RowConstraints /><RowConstraints /><RowConstraints /><RowConstraints />
+                            <RowConstraints /><RowConstraints /><RowConstraints />
+                        </rowConstraints>
+                    </GridPane>
+                </VBox>
+
+                <!-- ===== APPEARANCE Tab ===== -->
+                <VBox fx:id="appearancePane" spacing="12" managed="false" visible="false">
+                    <Label style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Theme" />
+                    <GridPane hgap="12" vgap="8">
+                        <columnConstraints><ColumnConstraints prefWidth="160" /><ColumnConstraints hgrow="ALWAYS" /></columnConstraints>
+                        <Label text="Application Theme" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <ComboBox fx:id="appThemeCombo" prefWidth="220" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                        <Label text="Syntax Highlighting" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <ComboBox fx:id="syntaxThemeCombo" prefWidth="220" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label text="Monaco Editor Theme" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                        <ComboBox fx:id="monacoThemeCombo" prefWidth="220" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <rowConstraints><RowConstraints /><RowConstraints /><RowConstraints /></rowConstraints>
+                    </GridPane>
+                    <Separator />
+                    <Label style="-fx-font-size: 13px; -fx-font-weight: bold;" text="Editor Preview" />
+                    <StackPane fx:id="previewContainer" VBox.vgrow="ALWAYS" />
+                </VBox>
+
+                <!-- ===== BEHAVIOR Tab ===== -->
+                <VBox fx:id="behaviorPane" spacing="12" managed="false" visible="false">
+                    <Label style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Behavior" />
+                    <GridPane hgap="12" vgap="6">
+                        <columnConstraints><ColumnConstraints prefWidth="220" /><ColumnConstraints hgrow="ALWAYS" /></columnConstraints>
+                        <CheckBox fx:id="autoSaveCheck" text="Auto Save" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <CheckBox fx:id="autoIndentCheck" text="Auto Indent" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <CheckBox fx:id="formatOnSaveCheck" text="Format on Save" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                        <CheckBox fx:id="trimWhitespaceCheck" text="Trim Trailing Whitespace" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                        <CheckBox fx:id="restoreSessionCheck" text="Restore Last Session on Startup" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                        <rowConstraints><RowConstraints /><RowConstraints /><RowConstraints /><RowConstraints /><RowConstraints /></rowConstraints>
+                    </GridPane>
+                </VBox>
+
+                <!-- ===== KEYBOARD Tab ===== -->
+                <VBox fx:id="keyboardPane" spacing="12" managed="false" visible="false">
+                    <Label style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Keyboard Shortcuts" />
+                    <Label style="-fx-font-size: 11px; -fx-text-fill: -text-muted;" text="These shortcuts are active throughout the editor." />
+                    <GridPane hgap="16" vgap="4">
+                        <columnConstraints><ColumnConstraints prefWidth="220" /><ColumnConstraints hgrow="ALWAYS" /></columnConstraints>
+                        <Label style="-fx-font-weight: bold;" text="Action" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <Label style="-fx-font-weight: bold;" text="Shortcut" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                        <Separator GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+                        <Label text="Save" GridPane.columnIndex="0" GridPane.rowIndex="2" /><Label text="Ctrl+S" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label text="Open File" GridPane.columnIndex="0" GridPane.rowIndex="3" /><Label text="Ctrl+O" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label text="Find" GridPane.columnIndex="0" GridPane.rowIndex="4" /><Label text="Ctrl+F" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <Label text="Replace" GridPane.columnIndex="0" GridPane.rowIndex="5" /><Label text="Ctrl+H" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <Label text="Command Palette" GridPane.columnIndex="0" GridPane.rowIndex="6" /><Label text="Ctrl+Shift+K" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <Label text="Settings" GridPane.columnIndex="0" GridPane.rowIndex="7" /><Label text="Ctrl+," GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                        <Label text="Run JS" GridPane.columnIndex="0" GridPane.rowIndex="8" /><Label text="F5" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                        <Label text="Build APK" GridPane.columnIndex="0" GridPane.rowIndex="9" /><Label text="Ctrl+Alt+B" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                        <Label text="Toggle Theme" GridPane.columnIndex="0" GridPane.rowIndex="10" /><Label text="Ctrl+Shift+T" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                        <Label text="Format Code" GridPane.columnIndex="0" GridPane.rowIndex="11" /><Label text="Ctrl+Shift+F" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+                        <Label text="Go to Line" GridPane.columnIndex="0" GridPane.rowIndex="12" /><Label text="Ctrl+G" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+                        <Label text="Close Tab" GridPane.columnIndex="0" GridPane.rowIndex="13" /><Label text="Ctrl+W" GridPane.columnIndex="1" GridPane.rowIndex="13" />
+                        <Label text="Close Project" GridPane.columnIndex="0" GridPane.rowIndex="14" /><Label text="Ctrl+Shift+W" GridPane.columnIndex="1" GridPane.rowIndex="14" />
+                        <Label text="Zoom In" GridPane.columnIndex="0" GridPane.rowIndex="15" /><Label text="Ctrl++" GridPane.columnIndex="1" GridPane.rowIndex="15" />
+                        <Label text="Zoom Out" GridPane.columnIndex="0" GridPane.rowIndex="16" /><Label text="Ctrl+-" GridPane.columnIndex="1" GridPane.rowIndex="16" />
+                        <rowConstraints>
+                            <RowConstraints /><RowConstraints /><RowConstraints /><RowConstraints /><RowConstraints />
+                            <RowConstraints /><RowConstraints /><RowConstraints /><RowConstraints /><RowConstraints />
+                            <RowConstraints /><RowConstraints /><RowConstraints /><RowConstraints /><RowConstraints />
+                            <RowConstraints /><RowConstraints />
+                        </rowConstraints>
+                    </GridPane>
+                </VBox>
+            </StackPane>
+        </HBox>
+    </center>
+
+    <bottom>
+        <VBox spacing="8">
+            <padding><Insets bottom="12" left="24" right="24" top="8" /></padding>
+            <HBox alignment="CENTER_RIGHT" spacing="8">
+                <Button fx:id="okBtn" defaultButton="true" onAction="#onOk" prefWidth="90" text="OK" />
+                <Button fx:id="cancelBtn" cancelButton="true" onAction="#onCancel" prefWidth="90" text="Cancel" />
+            </HBox>
+        </VBox>
+    </bottom>
+
+</BorderPane>

@@ -1,0 +1,18 @@
+﻿/* Horizon syntax highlighting */
+.syn-comment { -fx-fill: #6a6a6a; -fx-font-style: italic; }
+.syn-string { -fx-fill: #facc48; }
+.syn-number { -fx-fill: #e95678; }
+.syn-keyword { -fx-fill: #facc48; -fx-font-weight: bold; }
+.syn-functioncall { -fx-fill: #26bbd9; }
+.syn-brace { -fx-fill: #e3e3e3; }
+.syn-tag { -fx-fill: #e95678; }
+.syn-attr { -fx-fill: #facc48; }
+.syn-attrvalue { -fx-fill: #fab795; }
+.syn-tagend { -fx-fill: #e95678; }
+.syn-selector { -fx-fill: #26bbd9; }
+.syn-property { -fx-fill: #25b0bc; }
+.syn-color { -fx-fill: #e95678; }
+.syn-key { -fx-fill: #26bbd9; }
+.syn-bool { -fx-fill: #e95678; }
+.syn-annotation { -fx-fill: #fab795; }
+.syn-default { -fx-fill: #e3e3e3; }

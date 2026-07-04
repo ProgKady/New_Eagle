@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+@font-face { font-family:'Cairo'; src:url('cairo-arabic.woff2') format('woff2'); unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFC; }
+@font-face { font-family:'Cairo'; src:url('cairo-latin.woff2') format('woff2'); unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215; }
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Cairo','Traditional Arabic',sans-serif; }
+body { background:#0f1016; color:#edf0f7; padding:16px; font-size:13px; }
+
+.header { text-align:center; margin-bottom:18px; }
+.header .icon { font-size:36px; }
+.header h1 { font-size:17px; font-weight:600; margin-top:4px; color:#a78bfa; }
+.header .sub { font-size:11px; color:#5c6480; margin-top:2px; }
+
+.dua-card { background:#1e2030; border:1px solid #222536; border-radius:12px; padding:16px; margin-bottom:12px; }
+.dua-card .arabic { font-size:20px; font-weight:500; text-align:center; direction:rtl; color:#e8dff5; line-height:1.7; margin-bottom:10px; }
+.dua-card .meaning { font-size:12px; color:#a1a9c2; text-align:center; line-height:1.5; }
+.dua-card .count { display:inline-block; background:#2a2d42; color:#a78bfa; font-size:11px; padding:1px 10px; border-radius:8px; margin-top:8px; }
+
+.dhikr-box { background:#1e2030; border:1px solid #222536; border-radius:12px; padding:14px; margin-bottom:10px; }
+.dhikr-box .text { font-size:15px; text-align:center; direction:rtl; color:#e8dff5; line-height:1.6; }
+.dhikr-box .meta { display:flex; justify-content:center; gap:12px; margin-top:8px; font-size:11px; color:#5c6480; }
+
+.name-box { background:linear-gradient(135deg,#1e2030,#2a2d42); border:1px solid #8b5cf6; border-radius:12px; padding:14px; margin-bottom:10px; text-align:center; }
+.name-box .name { font-size:20px; font-weight:600; color:#c4b5fd; }
+.name-box .meaning { font-size:11px; color:#a1a9c2; margin-top:4px; }
+
+.hadith-box { background:#1e2030; border:1px solid #222536; border-radius:12px; padding:14px; margin-bottom:10px; }
+.hadith-box .text { font-size:14px; text-align:center; direction:rtl; color:#e8dff5; line-height:1.6; }
+.hadith-box .ref { text-align:center; font-size:11px; color:#5c6480; margin-top:6px; }
+
+.sep { border:none; border-top:1px solid #222536; margin:14px 0; }
+
+.footer { text-align:center; font-size:10px; color:#5c6480; margin-top:14px; padding-top:10px; border-top:1px solid #222536; }
+
+.verse-box { background:linear-gradient(135deg,#1e2030,#181a24); border:1px solid #333752; border-radius:12px; padding:14px; margin-bottom:10px; }
+.verse-box .text { font-size:16px; text-align:center; direction:rtl; color:#c4b5fd; line-height:1.7; }
+.verse-box .ref { text-align:center; font-size:11px; color:#5c6480; margin-top:6px; }
+
+.ayat-card { background:linear-gradient(135deg,#1e2030,#15172a); border:2px solid #8b5cf6; border-radius:14px; padding:18px; margin-bottom:12px; text-align:center; }
+.ayat-card .text { font-size:17px; direction:rtl; color:#e8dff5; line-height:1.8; }
+.ayat-card .ref { font-size:11px; color:#a78bfa; margin-top:8px; font-weight:600; }
+</style>
+</head>
+<body>
+
+<div class="header">
+<div class="icon">&#x1F54B;</div>
+<div class="sub">Adhkar &amp; Islamic Supplications</div>
+</div>
+
+<!-- Dua 1: Morning & Evening -->
+<div class="dua-card">
+<div class="arabic">&#x627;&#x644;&#x644;&#x647;&#x645; &#x628;&#x643; &#x623;&#x635;&#x628;&#x62D;&#x646;&#x627; &#x648;&#x628;&#x643; &#x623;&#x645;&#x633;&#x64A;&#x646;&#x627; &#x648;&#x628;&#x643; &#x646;&#x62D;&#x64A;&#x627; &#x648;&#x628;&#x643; &#x646;&#x645;&#x648;&#x62A; &#x648;&#x627;&#x644;&#x64A;&#x643; &#x627;&#x644;&#x646;&#x634;&#x648;&#x631;</div>
+<div class="meaning">O Allah, by You we enter the morning and by You we enter the evening, by You we live and by You we die, and to You is the resurrection.</div>
+<div class="count">&#x635;&#x628;&#x627;&#x62D; &#x648;&#x645;&#x633;&#x627;&#x621; &mdash; Morning &amp; Evening</div>
+</div>
+
+<hr class="sep">
+
+<!-- Salawat upon the Prophet -->
+<div class="name-box">
+<div class="name">&#x627;&#x644;&#x635;&#x644;&#x627;&#x629; &#x639;&#x644;&#x649; &#x627;&#x644;&#x646;&#x628;&#x64A; &#x635;&#x644;&#x649; &#x627;&#x644;&#x644;&#x647; &#x639;&#x644;&#x64A;&#x647; &#x648;&#x633;&#x644;&#x645;</div>
+</div>
+<div class="dua-card">
+<div class="arabic">&#x627;&#x644;&#x644;&#x647;&#x645; &#x635;&#x644; &#x639;&#x644;&#x649; &#x645;&#x62D;&#x645;&#x62F; &#x648;&#x639;&#x644;&#x649; &#x622;&#x644; &#x645;&#x62D;&#x645;&#x62F; &#x643;&#x645;&#x627; &#x635;&#x644;&#x64A;&#x62A; &#x639;&#x644;&#x649; &#x625;&#x628;&#x631;&#x627;&#x647;&#x64A;&#x645; &#x648;&#x639;&#x644;&#x649; &#x622;&#x644; &#x625;&#x628;&#x631;&#x627;&#x647;&#x64A;&#x645; &#x625;&#x646;&#x643; &#x62D;&#x645;&#x64A;&#x62F; &#x645;&#x62C;&#x64A;&#x62F;</div>
+<div class="meaning">O Allah, send prayers upon Muhammad and the family of Muhammad as You sent prayers upon Ibrahim and the family of Ibrahim, indeed You are Praiseworthy, Glorious.</div>
+<div class="count">&#x635;&#x644;&#x648;&#x627;&#x62A; &#x627;&#x644;&#x625;&#x628;&#x631;&#x627;&#x647;&#x64A;&#x629; &mdash; Ibrahimiyyah Salawat</div>
+</div>
+<div class="dua-card">
+<div class="arabic">&#x627;&#x644;&#x644;&#x647;&#x645; &#x628;&#x627;&#x631;&#x643; &#x639;&#x644;&#x649; &#x645;&#x62D;&#x645;&#x62F; &#x648;&#x639;&#x644;&#x649; &#x622;&#x644; &#x645;&#x62D;&#x645;&#x62F; &#x643;&#x645;&#x627; &#x628;&#x627;&#x631;&#x643;&#x62A; &#x639;&#x644;&#x649; &#x625;&#x628;&#x631;&#x627;&#x647;&#x64A;&#x645; &#x648;&#x639;&#x644;&#x649; &#x622;&#x644; &#x625;&#x628;&#x631;&#x627;&#x647;&#x64A;&#x645; &#x625;&#x646;&#x643; &#x62D;&#x645;&#x64A;&#x62F; &#x645;&#x62C;&#x64A;&#x62F;</div>
+<div class="meaning">O Allah, bless Muhammad and the family of Muhammad as You blessed Ibrahim and the family of Ibrahim, indeed You are Praiseworthy, Glorious.</div>
+<div class="count">&#x635;&#x644;&#x648;&#x627;&#x62A; &#x627;&#x644;&#x625;&#x628;&#x631;&#x627;&#x647;&#x64A;&#x629; &mdash; Ibrahimiyyah Salawat</div>
+</div>
+
+<hr class="sep">
+
+<!-- Ayat al-Kursi -->
+<div class="name-box">
+<div class="name">&#x622;&#x64A;&#x629; &#x627;&#x644;&#x643;&#x631;&#x633;&#x64A;</div>
+<div class="meaning">Ayat al-Kursi &mdash; The Throne Verse (2:255)</div>
+</div>
+<div class="ayat-card">
+<div class="text">&#x627;&#x644;&#x644;&#x647; &#x644;&#x627; &#x625;&#x644;&#x647; &#x625;&#x644;&#x627; &#x647;&#x648; &#x627;&#x644;&#x62D;&#x64A; &#x627;&#x644;&#x642;&#x64A;&#x648;&#x645; &#x644;&#x627; &#x62A;&#x623;&#x62E;&#x630;&#x647; &#x633;&#x646;&#x629; &#x648;&#x644;&#x627; &#x646;&#x648;&#x645; &#x644;&#x647; &#x645;&#x627; &#x641;&#x64A; &#x627;&#x644;&#x633;&#x645;&#x627;&#x648;&#x627;&#x62A; &#x648;&#x645;&#x627; &#x641;&#x64A; &#x627;&#x644;&#x623;&#x631;&#x636; &#x645;&#x646; &#x630;&#x627; &#x627;&#x644;&#x630;&#x64A; &#x64A;&#x634;&#x641;&#x639; &#x639;&#x646;&#x62F;&#x647; &#x625;&#x644;&#x627; &#x628;&#x625;&#x630;&#x646;&#x647; &#x64A;&#x639;&#x644;&#x645; &#x645;&#x627; &#x628;&#x64A;&#x646; &#x623;&#x64A;&#x62F;&#x64A;&#x647;&#x645; &#x648;&#x645;&#x627; &#x62E;&#x644;&#x641;&#x647;&#x645; &#x648;&#x644;&#x627; &#x64A;&#x62D;&#x64A;&#x637;&#x648;&#x646; &#x628;&#x634;&#x64A;&#x621; &#x645;&#x646; &#x639;&#x644;&#x645;&#x647; &#x625;&#x644;&#x627; &#x628;&#x645;&#x627; &#x634;&#x627;&#x621; &#x648;&#x633;&#x639; &#x643;&#x631;&#x633;&#x64A;&#x647; &#x627;&#x644;&#x633;&#x645;&#x627;&#x648;&#x627;&#x62A; &#x648;&#x627;&#x644;&#x623;&#x631;&#x636; &#x648;&#x644;&#x627; &#x64A;&#x621;&#x648;&#x62F;&#x647; &#x62D;&#x641;&#x638;&#x647;&#x645;&#x627; &#x648;&#x647;&#x648; &#x627;&#x644;&#x639;&#x644;&#x64A; &#x627;&#x644;&#x639;&#x638;&#x64A;&#x645;</div>
+<div class="ref">&#x633;&#x648;&#x631;&#x629; &#x627;&#x644;&#x628;&#x642;&#x631;&#x629; 2:255</div>
+</div>
+
+<hr class="sep">
+
+<!-- Tasbeeh -->
+<div class="dhikr-box">
+<div class="text">&#x633;&#x628;&#x62D;&#x627;&#x646; &#x627;&#x644;&#x644;&#x647; &#x648;&#x627;&#x644;&#x62D;&#x645;&#x62F; &#x644;&#x644;&#x647; &#x648;&#x644;&#x627; &#x625;&#x644;&#x647; &#x625;&#x644;&#x627; &#x627;&#x644;&#x644;&#x647; &#x648;&#x627;&#x644;&#x644;&#x647; &#x623;&#x643;&#x628;&#x631;</div>
+<div class="meta"><span>100x Daily</span><span>&#x633;&#x628;&#x62D;&#x627;&#x646; &#x627;&#x644;&#x644;&#x647; (33x)</span><span>&#x627;&#x644;&#x62D;&#x645;&#x62F; &#x644;&#x644;&#x647; (33x)</span><span>&#x627;&#x644;&#x644;&#x647; &#x623;&#x643;&#x628;&#x631; (34x)</span></div>
+</div>
+
+<div class="dhikr-box">
+<div class="text">&#x644;&#x627; &#x625;&#x644;&#x647; &#x625;&#x644;&#x627; &#x627;&#x644;&#x644;&#x647; &#x648;&#x62D;&#x62F;&#x647; &#x644;&#x627; &#x634;&#x631;&#x64A;&#x643; &#x644;&#x647; &#x644;&#x647; &#x627;&#x644;&#x645;&#x644;&#x643; &#x648;&#x644;&#x647; &#x627;&#x644;&#x62D;&#x645;&#x62F; &#x648;&#x647;&#x648; &#x639;&#x644;&#x649; &#x643;&#x644; &#x634;&#x64A;&#x621; &#x642;&#x62F;&#x64A;&#x631;</div>
+<div class="meta"><span>100x Daily &mdash; expiates sins</span></div>
+</div>
+
+<hr class="sep">
+
+<!-- Name of Allah -->
+<div class="name-box">
+<div class="name">&#x627;&#x644;&#x644;&#x647; &#x64A;&#x627; &#x627;&#x644;&#x644;&#x647;</div>
+<div class="meaning">Allah &mdash; The Greatest Name (99 Names of Allah)</div>
+</div>
+
+<div class="dhikr-box">
+<div class="text">&#x64A;&#x627; &#x62D;&#x64A; &#x64A;&#x627; &#x642;&#x64A;&#x648;&#x645; &#x628;&#x631;&#x62D;&#x645;&#x62A;&#x643; &#x623;&#x633;&#x62A;&#x63A;&#x64A;&#x62B; &#x623;&#x635;&#x644;&#x62D; &#x644;&#x64A; &#x634;&#x623;&#x646;&#x64A; &#x643;&#x644;&#x647; &#x648;&#x644;&#x627; &#x62A;&#x643;&#x644;&#x646;&#x64A; &#x625;&#x644;&#x649; &#x646;&#x641;&#x633;&#x64A; &#x637;&#x631;&#x641;&#x629; &#x639;&#x64A;&#x646;</div>
+<div class="meta"><span>Dua for all affairs</span></div>
+</div>
+
+<hr class="sep">
+
+<!-- More Duas -->
+<div class="dua-card">
+<div class="arabic">&#x631;&#x628;&#x646;&#x627; &#x622;&#x62A;&#x646;&#x627; &#x641;&#x64A; &#x627;&#x644;&#x62F;&#x646;&#x64A;&#x627; &#x62D;&#x633;&#x646;&#x629; &#x648;&#x641;&#x64A; &#x627;&#x644;&#x622;&#x62E;&#x631;&#x629; &#x62D;&#x633;&#x646;&#x629; &#x648;&#x642;&#x646;&#x627; &#x639;&#x630;&#x627;&#x628; &#x627;&#x644;&#x646;&#x627;&#x631;</div>
+<div class="meaning">Our Lord, give us in this world good and in the Hereafter good, and protect us from the punishment of the Fire.</div>
+<div class="count">&#x627;&#x644;&#x628;&#x642;&#x631;&#x629; 2:201</div>
+</div>
+
+<div class="dua-card">
+<div class="arabic">&#x631;&#x628; &#x627;&#x634;&#x631;&#x62D; &#x644;&#x64A; &#x635;&#x62F;&#x631;&#x64A; &#x648;&#x64A;&#x633;&#x631; &#x644;&#x64A; &#x623;&#x645;&#x631;&#x64A; &#x648;&#x627;&#x62D;&#x644;&#x644; &#x639;&#x642;&#x62F;&#x629; &#x645;&#x646; &#x644;&#x633;&#x627;&#x646;&#x64A; &#x64A;&#x641;&#x642;&#x647;&#x648;&#x627; &#x642;&#x648;&#x644;&#x64A;</div>
+<div class="meaning">My Lord, expand for me my chest, ease for me my task, and untie the knot from my tongue that they may understand my speech.</div>
+<div class="count">&#x637;&#x647; 20:25-28</div>
+</div>
+
+<div class="dua-card">
+<div class="arabic">&#x631;&#x628;&#x646;&#x627; &#x644;&#x627; &#x62A;&#x634;&#x648;&#x642; &#x642;&#x644;&#x648;&#x628;&#x646;&#x627; &#x628;&#x639;&#x62F; &#x625;&#x630; &#x647;&#x62F;&#x64A;&#x62A;&#x646;&#x627; &#x648;&#x647;&#x628; &#x644;&#x646;&#x627; &#x645;&#x646; &#x644;&#x62F;&#x646;&#x643; &#x631;&#x62D;&#x645;&#x629; &#x625;&#x646;&#x643; &#x623;&#x646;&#x62A; &#x627;&#x644;&#x648;&#x647;&#x627;&#x628;</div>
+<div class="meaning">Our Lord, let not our hearts deviate after You have guided us and grant us from Yourself mercy. Indeed, You are the Bestower.</div>
+<div class="count">&#x622;&#x644; &#x639;&#x645;&#x631;&#x627;&#x646; 3:8</div>
+</div>
+
+<hr class="sep">
+
+<!-- Verses -->
+<div class="verse-box">
+<div class="text">&#x627;&#x646; &#x645;&#x639; &#x627;&#x644;&#x639;&#x633;&#x631; &#x64A;&#x633;&#x631;&#x627;</div>
+<div class="ref">&#x633;&#x648;&#x631;&#x629; &#x627;&#x644;&#x634;&#x631;&#x62D; 94:6</div>
+</div>
+
+<div class="verse-box">
+<div class="text">&#x627;&#x644;&#x644;&#x647; &#x648;&#x644;&#x64A; &#x627;&#x644;&#x630;&#x64A;&#x646; &#x622;&#x645;&#x646;&#x648;&#x627; &#x64A;&#x62E;&#x631;&#x62C;&#x647;&#x645; &#x645;&#x646; &#x627;&#x644;&#x638;&#x644;&#x645;&#x627;&#x62A; &#x625;&#x644;&#x649; &#x627;&#x644;&#x646;&#x648;&#x631;</div>
+<div class="ref">&#x633;&#x648;&#x631;&#x629; &#x627;&#x644;&#x628;&#x642;&#x631;&#x629; 2:257</div>
+</div>
+
+<div class="verse-box">
+<div class="text">&#x648;&#x645;&#x646; &#x64A;&#x62A;&#x648;&#x643;&#x644; &#x639;&#x644;&#x649; &#x627;&#x644;&#x644;&#x647; &#x641;&#x647;&#x648; &#x62D;&#x633;&#x628;&#x647; &#x625;&#x646; &#x627;&#x644;&#x644;&#x647; &#x628;&#x627;&#x644;&#x63A; &#x623;&#x645;&#x631;&#x647;</div>
+<div class="ref">&#x633;&#x648;&#x631;&#x629; &#x627;&#x644;&#x637;&#x644;&#x627;&#x642; 65:3</div>
+</div>
+
+<hr class="sep">
+
+<!-- Hadiths -->
+<div class="hadith-box">
+<div class="text">&#x62E;&#x64A;&#x631;&#x643;&#x645; &#x62E;&#x64A;&#x631;&#x647;&#x645; &#x644;&#x623;&#x647;&#x644;&#x647;</div>
+<div class="ref">The best of you are the best to their families &mdash; Sunan Ibn Majah</div>
+</div>
+
+<div class="hadith-box">
+<div class="text">&#x645;&#x646; &#x643;&#x627;&#x646; &#x64A;&#x624;&#x645;&#x646; &#x628;&#x627;&#x644;&#x644;&#x647; &#x648;&#x627;&#x644;&#x64A;&#x648;&#x645; &#x627;&#x644;&#x622;&#x62E;&#x631; &#x641;&#x644;&#x64A;&#x642;&#x644; &#x62E;&#x64A;&#x631;&#x627; &#x627;&#x648; &#x644;&#x64A;&#x635;&#x645;&#x62A;</div>
+<div class="ref">Whoever believes in Allah and the Last Day, let him speak good or remain silent &mdash; Bukhari &amp; Muslim</div>
+</div>
+
+<div class="hadith-box">
+<div class="text">&#x625;&#x62D;&#x641;&#x638; &#x627;&#x644;&#x644;&#x647; &#x64A;&#x62D;&#x641;&#x638;&#x643; &#x625;&#x62D;&#x641;&#x638; &#x627;&#x644;&#x644;&#x647; &#x62A;&#x62C;&#x62F;&#x647; &#x62B;&#x634;&#x627;&#x621;&#x643;</div>
+<div class="ref">Be mindful of Allah and He will protect you. Be mindful of Allah and you will find Him before you &mdash; Tirmidhi</div>
+</div>
+
+<div class="footer">&#x628;&#x633;&#x645; &#x627;&#x644;&#x644;&#x647; &#x627;&#x644;&#x631;&#x62D;&#x645;&#x646; &#x627;&#x644;&#x631;&#x62D;&#x64A;&#x645;</div>
+</body>
+</html>

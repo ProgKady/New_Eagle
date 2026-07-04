@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="580.0" prefWidth="540.0" styleClass="apk-dialog" stylesheets="@../css/apk-dialog.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.eagle.controller.MusicApkController">
+   <children>
+      <VBox styleClass="apk-header">
+         <HBox alignment="CENTER_LEFT" spacing="14">
+            <ImageView fx:id="imgview" fitHeight="52.0" fitWidth="52.0" onMouseClicked="#imgviewact" pickOnBounds="true" preserveRatio="true" styleClass="icon-frame">
+               <cursor><Cursor fx:constant="HAND" /></cursor>
+               <effect>
+                  <DropShadow color="rgba(108,92,231,0.3)" radius="8" />
+               </effect>
+            </ImageView>
+            <VBox spacing="2">
+               <Label styleClass="title" text="Music Player APK" />
+               <Label styleClass="subtitle" text="Create a native Android music player from your MP3 files" />
+            </VBox>
+            <Button text="&#x2699;" styleClass="close-btn" onAction="#settingsAct" style="-fx-background: transparent; -fx-text-fill: #6b6d80; -fx-font-size: 18; -fx-cursor: hand; -fx-padding: 2 6;" />
+         </HBox>
+      </VBox>
+      <ScrollPane fitToWidth="true" style="-fx-background: transparent; -fx-border: none; -fx-background-color: transparent;" VBox.vgrow="ALWAYS">
+         <VBox spacing="10" styleClass="apk-content">
+            <VBox spacing="10" styleClass="apk-card">
+               <Label styleClass="section-label" text="APP ICON" />
+               <Label fx:id="pathlabel" style="-fx-text-fill: -text-secondary; -fx-font-size: 11px;" visible="false" />
+               <Label styleClass="hint" text="Click the icon above to select a PNG image" />
+            </VBox>
+            <VBox spacing="10" styleClass="apk-card">
+               <Label styleClass="section-label" text="APP INFORMATION" />
+               <JFXTextField fx:id="apkname" labelFloat="true" promptText="APK Name (e.g. MyMusic)">
+                  <font><Font name="System Bold" size="13.0" /></font>
+               </JFXTextField>
+               <JFXTextField fx:id="packagename" labelFloat="true" promptText="Package Name (e.g. mymusic)">
+                  <font><Font name="System Bold" size="13.0" /></font>
+               </JFXTextField>
+            </VBox>
+            <VBox spacing="10" styleClass="apk-card">
+               <Label styleClass="section-label" text="MUSIC FILES" />
+               <HBox spacing="8">
+                  <JFXTextField fx:id="zipfile" editable="false" labelFloat="true" promptText="Select ZIP with MP3 files..." HBox.hgrow="ALWAYS">
+                     <font><Font name="System Bold" size="13.0" /></font>
+                  </JFXTextField>
+                  <JFXButton fx:id="browse1" buttonType="RAISED" onAction="#browse1act" style="-fx-background-color: -accent; -fx-background-radius: 8; -fx-padding: 6 16;" text="Browse" textFill="WHITE">
+                     <cursor><Cursor fx:constant="HAND" /></cursor>
+                     <font><Font name="System Bold" size="12.0" /></font>
+                  </JFXButton>
+               </HBox>
+               <Label styleClass="hint" text="Put all MP3 files in a ZIP archive, then select it above" />
+            </VBox>
+         </VBox>
+      </ScrollPane>
+      <HBox alignment="CENTER_RIGHT" styleClass="apk-footer">
+         <JFXButton fx:id="create" buttonType="RAISED" disable="true" onAction="#createact" styleClass="build-btn" text="Build APK" textFill="WHITE">
+            <font><Font name="System Bold" size="14.0" /></font>
+            <cursor><Cursor fx:constant="HAND" /></cursor>
+         </JFXButton>
+      </HBox>
+   </children>
+</VBox>

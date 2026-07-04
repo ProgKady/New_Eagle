@@ -1,0 +1,18 @@
+﻿/* Everforest Light syntax highlighting */
+.syn-comment { -fx-fill: #859a86; -fx-font-style: italic; }
+.syn-string { -fx-fill: #c85552; }
+.syn-number { -fx-fill: #e78a4e; }
+.syn-keyword { -fx-fill: #c85552; -fx-font-weight: bold; }
+.syn-functioncall { -fx-fill: #579986; }
+.syn-brace { -fx-fill: #5c6a72; }
+.syn-tag { -fx-fill: #c85552; }
+.syn-attr { -fx-fill: #859a86; }
+.syn-attrvalue { -fx-fill: #b8904a; }
+.syn-tagend { -fx-fill: #c85552; }
+.syn-selector { -fx-fill: #579986; }
+.syn-property { -fx-fill: #3a94c5; }
+.syn-color { -fx-fill: #a86b9c; }
+.syn-key { -fx-fill: #579986; }
+.syn-bool { -fx-fill: #a86b9c; }
+.syn-annotation { -fx-fill: #e78a4e; }
+.syn-default { -fx-fill: #5c6a72; }

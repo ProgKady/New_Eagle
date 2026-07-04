@@ -1,0 +1,110 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Jun 20, 2026, 12:48:16 PM
+    Author     : ahmed.elkady
+*/
+
+
+
+/* LIST VIEW */
+
+.list-view {
+    -fx-background-color: -fx-control-inner-background;
+    -fx-background-radius: 16;
+    -fx-border-radius: 16;
+    -fx-border-color: derive(-fx-base, -15%);
+    -fx-border-width: 1;
+
+    -fx-padding: 8;
+
+    -fx-effect: dropshadow(
+        gaussian,
+        rgba(0,0,0,0.10),
+        12,
+        0.2,
+        0,
+        2
+    );
+}
+
+/* CELLS */
+
+.list-cell {
+    -fx-background-color: transparent;
+    -fx-background-radius: 12;
+
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 14px;
+
+    -fx-padding: 12 16 12 16;
+
+    /* يرث لون النص من الثيم */
+    -fx-text-fill: -fx-text-background-color;
+}
+
+/* HOVER */
+
+.list-cell:hover {
+    -fx-background-color: derive(-fx-control-inner-background, -5%);
+    -fx-cursor: hand;
+}
+
+/* SELECTED */
+
+.list-cell:selected {
+    -fx-background-color: linear-gradient(
+        to right,
+        #4f46e5,
+        #6366f1
+    );
+
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* SELECTED + FOCUSED */
+
+.list-cell:filled:selected:focused {
+    -fx-background-color: linear-gradient(
+        to right,
+        #4f46e5,
+        #6366f1
+    );
+
+    -fx-text-fill: white;
+}
+
+/* EMPTY */
+
+.list-cell:empty {
+    -fx-background-color: transparent;
+}
+
+/* SCROLL BAR */
+
+.list-view .scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.list-view .scroll-bar .thumb {
+    -fx-background-color: rgba(120,120,120,0.5);
+    -fx-background-radius: 100;
+}
+
+.list-view .scroll-bar .thumb:hover {
+    -fx-background-color: rgba(120,120,120,0.8);
+}
+
+.list-view .scroll-bar .increment-button,
+.list-view .scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.list-view .scroll-bar .increment-arrow,
+.list-view .scroll-bar .decrement-arrow {
+    -fx-padding: 0;
+}

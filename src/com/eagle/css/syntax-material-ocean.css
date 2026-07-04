@@ -1,0 +1,18 @@
+﻿/* Material Ocean syntax highlighting */
+.syn-comment { -fx-fill: #65737e; -fx-font-style: italic; }
+.syn-string { -fx-fill: #a3be8c; }
+.syn-number { -fx-fill: #bf616a; }
+.syn-keyword { -fx-fill: #b48ead; -fx-font-weight: bold; }
+.syn-functioncall { -fx-fill: #8fa1b3; }
+.syn-brace { -fx-fill: #c0c5ce; }
+.syn-tag { -fx-fill: #bf616a; }
+.syn-attr { -fx-fill: #a3be8c; }
+.syn-attrvalue { -fx-fill: #ebcb8b; }
+.syn-tagend { -fx-fill: #bf616a; }
+.syn-selector { -fx-fill: #8fa1b3; }
+.syn-property { -fx-fill: #8fa1b3; }
+.syn-color { -fx-fill: #b48ead; }
+.syn-key { -fx-fill: #8fa1b3; }
+.syn-bool { -fx-fill: #b48ead; }
+.syn-annotation { -fx-fill: #d08770; }
+.syn-default { -fx-fill: #c0c5ce; }

@@ -1,0 +1,18 @@
+﻿/* Material Lighter syntax highlighting */
+.syn-comment { -fx-fill: #90a4ae; -fx-font-style: italic; }
+.syn-string { -fx-fill: #68973a; }
+.syn-number { -fx-fill: #f76d47; }
+.syn-keyword { -fx-fill: #39adb5; -fx-font-weight: bold; }
+.syn-functioncall { -fx-fill: #6182b8; }
+.syn-brace { -fx-fill: #37474f; }
+.syn-tag { -fx-fill: #e53935; }
+.syn-attr { -fx-fill: #68973a; }
+.syn-attrvalue { -fx-fill: #f6a434; }
+.syn-tagend { -fx-fill: #e53935; }
+.syn-selector { -fx-fill: #e53935; }
+.syn-property { -fx-fill: #6182b8; }
+.syn-color { -fx-fill: #7c4dff; }
+.syn-key { -fx-fill: #6182b8; }
+.syn-bool { -fx-fill: #7c4dff; }
+.syn-annotation { -fx-fill: #f76d47; }
+.syn-default { -fx-fill: #37474f; }
